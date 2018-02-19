@@ -1,19 +1,24 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { yellow700 } from 'material-ui/styles/colors';
+
+import React from 'react';
+import ShopSearch from './ShopSearch';
+
 import './App.css';
 
-function render() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-      <p className="App-intro">
-        To get started, edit <code>src/App.jsx</code> and save to reload.
-      </p>
-    </div>
-  );
-}
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: yellow700,
+  },
+});
 
-export default render;
+const App = function renderApp() {
+  return (
+    <MuiThemeProvider muiTheme={muiTheme}>
+      <ShopSearch />
+    </MuiThemeProvider>
+  );
+};
+
+export default App;
