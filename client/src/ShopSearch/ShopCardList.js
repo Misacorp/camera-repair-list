@@ -17,6 +17,7 @@ class ShopCardList extends React.Component {
 
 
   componentDidMount() {
+    // Load shop data
     this.getShopData(this.props.source);
   }
 

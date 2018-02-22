@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-import Subheader from 'material-ui/Subheader';
+import ColList from './ColList';
 import loadingIcon from '../assets/img/ic_image_white_24px.svg';
 import flagFetcher from './flagFetcher';
 
@@ -30,6 +30,8 @@ class ShopCard extends React.Component {
   }
 
   render() {
+    const { shop } = this.state;
+
     let subtitle = this.state.shop.country;
     if (this.state.shop.address) {
       subtitle = `${this.state.shop.address}, ${subtitle}`;
@@ -46,22 +48,40 @@ class ShopCard extends React.Component {
             avatar={this.state.flagImage}
           />
           <CardText expandable>
-            <ul>
-              <li>Mentions: {this.state.shop.mentions}</li>
-              <li>Email: {this.state.shop.email}</li>
-              <li>Website: {this.state.shop.website}</li>
-              <li>Type: {this.state.shop.type}</li>
-              <li>Relationship: {this.state.shop.relationship}</li>
-              <li>EQ1: {this.state.shop.equipment_1}</li>
-              <li>EQ2: {this.state.shop.equipment_2}</li>
-              <li>EQ3: {this.state.shop.equipment_3}</li>
-              <li>EQ4: {this.state.shop.equipment_4}</li>
-              <li>EQ5: {this.state.shop.equipment_5}</li>
-              <li>Future: {this.state.shop.future}</li>
-            </ul>
-            <Subheader>Contact</Subheader>
-            <p>{this.state.shop.website}</p>
-            <p>{this.state.shop.email}</p>
+            <ColList
+              title="Credibility"
+              items={[
+                shop.mentions,
+                shop.relationship,
+              ]}
+            />
+
+            <ColList
+              title="Contact"
+              items={[
+                shop.website,
+                shop.email,
+              ]}
+            />
+
+            <ColList
+              title="Services"
+              items={[
+                shop.equipment_1,
+                shop.equipment_2,
+                shop.equipment_3,
+                shop.equipment_4,
+                shop.equipment_5,
+              ]}
+            />
+
+            <ColList
+              title="Shop"
+              items={[
+                shop.type,
+                shop.future,
+              ]}
+            />
           </CardText>
         </Card>
       </div>
