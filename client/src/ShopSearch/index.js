@@ -4,14 +4,20 @@ import Paper from 'material-ui/Paper';
 import ShopCardList from './ShopCardList';
 
 function ShopSearch(props) {
-  const style = {
-    width: '80%',
-    margin: '1em auto',
+  const styles = {
+    paperContainer: {
+      width: '80%',
+      margin: '1em auto',
+      padding: '1em',
+    },
+    shopCardList: {
+      textAlign: 'center',
+    },
   };
 
   return (
     <div>
-      <Paper style={style} zDepth={1} >
+      <Paper style={styles.paperContainer} zDepth={1} >
         <ShopCardList source={props.source} />
       </Paper>
     </div>
@@ -23,8 +29,7 @@ ShopSearch.propTypes = {
 };
 
 ShopSearch.defaultProps = {
-  source: '',
-  // source: 'https://u46bd0us11.execute-api.us-east-2.amazonaws.com/production/',
+  source: 'https://u46bd0us11.execute-api.us-east-2.amazonaws.com/production',
 };
 
 export default ShopSearch;

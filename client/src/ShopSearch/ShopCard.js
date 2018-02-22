@@ -71,20 +71,20 @@ class ShopCard extends React.Component {
 
 ShopCard.propTypes = {
   shop: PropTypes.shape({
-    mentions: PropTypes.number,
+    mentions: PropTypes.string,
     shopName: PropTypes.string,
     email: PropTypes.string,
     website: PropTypes.string,
     country: PropTypes.string,
     address: PropTypes.string,
-    type: PropTypes.number,
-    relationship: PropTypes.number,
+    type: PropTypes.string,
+    relationship: PropTypes.string,
     equipment_1: PropTypes.bool,
     equipment_2: PropTypes.bool,
     equipment_3: PropTypes.bool,
     equipment_4: PropTypes.bool,
     equipment_5: PropTypes.bool,
-    future: PropTypes.number,
+    future: PropTypes.string,
   }),
 };
 
