@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Subheader from 'material-ui/Subheader';
 import ColListItem from './ColListItem';
+import InlineText from '../InlineText';
 
 function ColList(props) {
   return (
@@ -9,7 +10,7 @@ function ColList(props) {
       <Subheader>{props.title}</Subheader>
       <div style={{ paddingLeft: '16px' }}>
         {props.items.map(item => (
-          <ColListItem key={item} content={item} />
+          <ColListItem key={item.content} content={item} />
         ))}
       </div>
     </div>
@@ -18,7 +19,7 @@ function ColList(props) {
 
 ColList.propTypes = {
   title: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.string),
+  items: PropTypes.arrayOf(InlineText),
 };
 
 ColList.defaultProps = {

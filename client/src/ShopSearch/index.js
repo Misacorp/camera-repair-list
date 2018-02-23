@@ -8,7 +8,6 @@ function ShopSearch(props) {
     paperContainer: {
       width: '80%',
       margin: '1em auto',
-      padding: '1em',
     },
     shopCardList: {
       textAlign: 'center',
