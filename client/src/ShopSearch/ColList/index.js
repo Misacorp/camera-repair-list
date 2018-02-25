@@ -2,16 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Subheader from 'material-ui/Subheader';
 import ColListItem from './ColListItem';
-import InlineText from '../InlineText';
+
+const styles = {
+  colList: {
+    marginBottom: '1.5em',
+  },
+  content: {
+    paddingLeft: '16px',
+  },
+  subHeader: {
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    color: '#C0C0C0',
+  },
+};
 
 function ColList(props) {
   return (
-    <div>
-      <Subheader>{props.title}</Subheader>
-      <div style={{ paddingLeft: '16px' }}>
-        {props.items.map(item => (
-          <ColListItem key={item.content} content={item} />
-        ))}
+    <div style={styles.colList}>
+      <Subheader style={styles.subHeader}>{props.title}</Subheader>
+      <div style={styles.content}>
+        {props.children}
       </div>
     </div>
   );
@@ -19,12 +30,15 @@ function ColList(props) {
 
 ColList.propTypes = {
   title: PropTypes.string,
-  items: PropTypes.arrayOf(InlineText),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 ColList.defaultProps = {
   title: 'Default title',
-  items: [],
+  children: <ColListItem>Default Children</ColListItem>,
 };
 
 export default ColList;

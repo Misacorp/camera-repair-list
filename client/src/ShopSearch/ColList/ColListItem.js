@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import InlineText from '../InlineText';
 
 const styles = {
   container: {
@@ -13,22 +12,21 @@ const styles = {
 };
 
 function ColList(props) {
+  console.log('ColListItem typeof = ', typeof props.children);
+
   return (
     <div style={styles.container}>
-      {props.content}
+      {props.children}
     </div>
   );
 }
 
 ColList.propTypes = {
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.instanceOf(InlineText),
-  ]),
+  children: PropTypes.node,
 };
 
 ColList.defaultProps = {
-  content: 'Default content',
+  children: 'Default content',
 };
 
 export default ColList;

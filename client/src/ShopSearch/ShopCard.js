@@ -1,10 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-import ColList from './ColList';
+import EmailIcon from 'material-ui/svg-icons/communication/email';
+import GlobeIcon from 'material-ui/svg-icons/social/public';
+import ColList from './ColList/';
+import ColListItem from './ColList/ColListItem';
 import ConditionalText from './ConditionalText';
 import loadingIcon from '../assets/img/ic_image_white_24px.svg';
 import flagFetcher from './flagFetcher';
+
+const styles = {
+  cardContainer: {
+    paddingBottom: 0,
+  },
+  icon: {
+    verticalAlign: 'middle',
+    paddingRight: '1em',
+  },
+  cardText: {
+    borderLeft: '5px solid #FBC02D',
+    backgroundColor: '#FCFCFC',
+  },
+};
 
 class ShopCard extends React.Component {
   constructor(props) {
@@ -40,7 +57,7 @@ class ShopCard extends React.Component {
 
     return (
       <div>
-        <Card>
+        <Card containerStyle={styles.cardContainer} >
           <CardHeader
             title={this.state.shop.shopname}
             subtitle={subtitle}
@@ -48,44 +65,49 @@ class ShopCard extends React.Component {
             showExpandableButton
             avatar={this.state.flagImage}
           />
-          <CardText expandable>
-            <ColList
-              title="Credibility"
-              items={[
-                shop.mentions,
-                shop.relationship,
-              ]}
-            />
+          <CardText
+            expandable
+            style={styles.cardText}
+          >
+            <ColList title="Credibility" >
+              <ColListItem>Mentions: {shop.mentions}</ColListItem>
+              <ColListItem>Relationship: {shop.relationship}</ColListItem>
+            </ColList>
 
-            <ColList
-              title="Contact"
-              items={[
-                shop.website,
-                shop.email,
-              ]}
-            />
+            <ColList title="Contact" >
+              <ColListItem>
+                <EmailIcon style={styles.icon} />{shop.email}
+              </ColListItem>
+              <ColListItem>
+                <GlobeIcon style={styles.icon} />{shop.website}
+              </ColListItem>
+            </ColList>
 
-            <ColList
-              title="Services"
-              items={[
-                <ConditionalText text="Analog Mechanical Cameras" enabled={shop.equipment1} />,
-                <ConditionalText text="Analog Electronic Cameras" enabled={shop.equipment2} />,
-                <ConditionalText text="Manual Focus Lenses" enabled={shop.equipment3} />,
-                <ConditionalText text="Autofocus Lenses" enabled={shop.equipment4} />,
+            <ColList title="Services">
+              <ColListItem>
+                <ConditionalText text="Analog Mechanical Cameras" enabled={shop.equipment1} />
+              </ColListItem>
+              <ColListItem>
+                <ConditionalText text="Analog Electronic Cameras" enabled={shop.equipment2} />
+              </ColListItem>
+              <ColListItem>
+                <ConditionalText text="Manual Focus Lenses" enabled={shop.equipment3} />
+              </ColListItem>
+              <ColListItem>
+                <ConditionalText text="Autofocus Lenses" enabled={shop.equipment4} />
+              </ColListItem>
+              <ColListItem>
                 <ConditionalText
                   text="Modern Digital Cameras and Lenses"
                   enabled={shop.equipment5}
-                />,
-              ]}
-            />
+                />
+              </ColListItem>
+            </ColList>
 
-            <ColList
-              title="Shop"
-              items={[
-                shop.type,
-                shop.future,
-              ]}
-            />
+            <ColList title="Shop" >
+              <ColListItem>Type: {shop.type}</ColListItem>
+              <ColListItem>Future: {shop.future}</ColListItem>
+            </ColList>
           </CardText>
         </Card>
       </div>
@@ -113,7 +135,7 @@ ShopCard.propTypes = {
 };
 
 ShopCard.defaultProps = {
-  shop: { shopname: 'Defaul shop' },
+  shop: { shopname: 'Default shop' },
 };
 
 export default ShopCard;
