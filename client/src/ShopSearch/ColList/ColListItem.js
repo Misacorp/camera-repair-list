@@ -12,8 +12,6 @@ const styles = {
 };
 
 function ColList(props) {
-  console.log('ColListItem typeof = ', typeof props.children);
-
   return (
     <div style={styles.container}>
       {props.children}
