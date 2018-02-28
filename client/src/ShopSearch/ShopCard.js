@@ -105,6 +105,7 @@ class ShopCard extends React.Component {
             </ColList>
 
             <ColList title="Shop" >
+              <ColListItem>Size: {shop.size}</ColListItem>
               <ColListItem>Type: {shop.type}</ColListItem>
               <ColListItem>Future: {shop.future}</ColListItem>
             </ColList>
@@ -131,6 +132,7 @@ ShopCard.propTypes = {
     equipment4: PropTypes.bool,
     equipment5: PropTypes.bool,
     future: PropTypes.string,
+    size: PropTypes.string,
   }),
 };
 

@@ -37,12 +37,17 @@ const styles = {
 class ShopSearch extends React.Component {
   constructor(props) {
     super(props);
+    this.defaultCountry = 'All countries',
+    this.defaultSize = 'All sizes',
     this.state = {
       isLoading: false,
       error: null,
       errorCount: 0,
-      filterValue: 0,
+      countryFilter: this.defaultCountry,
+      sizeFilter: this.defaultSize,
+      shops: [],
     };
+
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -82,6 +87,23 @@ class ShopSearch extends React.Component {
       });
   }
 
+  /**
+   * Filter shops based on different conditions
+   * @param {object} filters Shop key-value pairs
+   */
+  filterShops(filters) {
+    let filteredShops = this.state.shops;
+    // Filter by country
+    if (this.state.countryFilter !== this.defaultCountry) {
+      filteredShops = filteredShops.filter(shop => shop.country === filters.country);
+    }
+    // Filter by size
+    if (this.state.sizeFilter !== this.defaultSize) {
+      filteredShops = filteredShops.filter(shop => shop.size === filters.size);
+    }
+    return filteredShops;
+  }
+
 
   /**
    * Handle a change caused by an event
@@ -89,8 +111,8 @@ class ShopSearch extends React.Component {
    * @param {*} index Index, idk?
    * @param {*} value Value after the change
    */
-  handleChange(event, index, value) {
-    this.setState({ filterValue: value });
+  handleChange(name, value) {
+    this.setState({ [name]: value });
   }
 
 
@@ -140,14 +162,34 @@ class ShopSearch extends React.Component {
       );
     }
 
-    console.log(this.handleChange);
+    // List of countries
+    const uniqueCountries = [...new Set(this.state.shops.map(shop => shop.country))];
+    uniqueCountries.sort();
+    // List of shop sizes
+    const uniqueSizes = [...new Set(this.state.shops.map(shop => shop.size))];
+    uniqueSizes.sort();
 
     return (
       <div>
         <Paper style={styles.paperContainer} zDepth={1} >
-          <p>Filter value: {this.state.filterValue}</p>
-          <ShopSearchFilter value={this.state.filterValue} onChange={this.handleChange.bind(this)} />
-          <ShopCardList shops={this.state.shops} />
+          <ShopSearchFilter
+            name="countryFilter"
+            default={this.defaultCountry}
+            value={this.state.countryFilter}
+            onChange={this.handleChange}
+            countries={uniqueCountries}
+          />
+          <ShopSearchFilter
+            name="sizeFilter"
+            default={this.defaultSize}
+            value={this.state.sizeFilter}
+            onChange={this.handleChange}
+            countries={uniqueSizes}
+          />
+          <ShopCardList shops={this.filterShops({
+            country: this.state.countryFilter,
+            size: this.state.sizeFilter,
+          })} />
         </Paper>
       </div>
     );
