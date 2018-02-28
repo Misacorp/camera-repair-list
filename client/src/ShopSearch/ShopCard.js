@@ -57,7 +57,7 @@ class ShopCard extends React.Component {
 
     return (
       <div>
-        <Card containerStyle={styles.cardContainer} >
+        <Card key={shop.shopname} containerStyle={styles.cardContainer} >
           <CardHeader
             title={this.state.shop.shopname}
             subtitle={subtitle}

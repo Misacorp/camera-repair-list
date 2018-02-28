@@ -7,17 +7,15 @@ class ShopSearchFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 1,
+      value: this.props.value,
     };
   }
 
-  handleChange(e) {
-    console.log(e);
-  }
-
   render() {
+    console.log(this.props.handleChange);
+
     return (
-      <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+      <DropDownMenu value={this.state.value} onChange={this.props.handleChange}>
         <MenuItem value={1} primaryText="Never" />
         <MenuItem value={2} primaryText="Every Night" />
         <MenuItem value={3} primaryText="Weeknights" />
@@ -27,5 +25,17 @@ class ShopSearchFilter extends React.Component {
     );
   }
 }
+
+ShopSearchFilter.propTypes = {
+  handleChange: PropTypes.object,
+  countries: PropTypes.arrayOf(PropTypes.string),
+  value: PropTypes.number,
+};
+
+ShopSearchFilter.defaultProps = {
+  handleChange: {},
+  countries: [],
+  value: '',
+};
 
 export default ShopSearchFilter;
