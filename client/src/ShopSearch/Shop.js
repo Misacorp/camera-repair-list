@@ -9,11 +9,11 @@ class Shop {
     this.equipment4 = Shop.stringToBool(data.equipment4);
     this.equipment5 = Shop.stringToBool(data.equipment5);
     this.future = data.future || '';
-    this.mentions = data.mentions || '';
-    this.relationship = data.relationship || '';
+    this.mentions = parseInt(data.mentions, 10) || 0;
+    this.relationship = parseInt(data.relationship, 10) || 0;
     this.shopname = data.shopname || '';
-    this.size = data.size || '';
-    this.type = data.type || '';
+    this.size = parseInt(data.size, 10) || '';
+    this.type = parseInt(data.type, 10) || '';
     this.website = data.website || '';
   }
 

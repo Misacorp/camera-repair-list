@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import GlobeIcon from 'material-ui/svg-icons/social/public';
+
 import ColList from './ColList/';
 import ColListItem from './ColList/ColListItem';
 import ConditionalText from './ConditionalText';
-import loadingIcon from '../assets/img/ic_image_white_24px.svg';
+import CredibilityScore from './CredibilityScore';
+import Shop from './Shop';
 import flagFetcher from './flagFetcher';
+import loadingIcon from '../assets/img/ic_image_white_24px.svg';
 
 const styles = {
   cardContainer: {
@@ -69,9 +73,10 @@ class ShopCard extends React.Component {
             expandable
             style={styles.cardText}
           >
-            <ColList title="Credibility" >
-              <ColListItem>Mentions: {shop.mentions}</ColListItem>
-              <ColListItem>Relationship: {shop.relationship}</ColListItem>
+            <ColList title="Credibility Score" >
+              <ColListItem>
+                <CredibilityScore mentions={shop.mentions} relationship={shop.relationship} />
+              </ColListItem>
             </ColList>
 
             <ColList title="Contact" >
@@ -117,23 +122,7 @@ class ShopCard extends React.Component {
 }
 
 ShopCard.propTypes = {
-  shop: PropTypes.shape({
-    mentions: PropTypes.string,
-    shopName: PropTypes.string,
-    email: PropTypes.string,
-    website: PropTypes.string,
-    country: PropTypes.string,
-    address: PropTypes.string,
-    type: PropTypes.string,
-    relationship: PropTypes.string,
-    equipment1: PropTypes.bool,
-    equipment2: PropTypes.bool,
-    equipment3: PropTypes.bool,
-    equipment4: PropTypes.bool,
-    equipment5: PropTypes.bool,
-    future: PropTypes.string,
-    size: PropTypes.string,
-  }),
+  shop: PropTypes.instanceOf(Shop),
 };
 
 ShopCard.defaultProps = {

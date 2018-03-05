@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from 'material-ui/CircularProgress';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Shop from './Shop';
 import ShopSearchFilter from './ShopSearchFilter';
@@ -9,10 +8,6 @@ import ShopCardList from './ShopCardList';
 import cachedFetch from './cachedFetch';
 
 const styles = {
-  paperContainer: {
-    width: '80%',
-    margin: '1em auto',
-  },
   shopCardList: {
     textAlign: 'center',
   },
@@ -37,8 +32,8 @@ const styles = {
 class ShopSearch extends React.Component {
   constructor(props) {
     super(props);
-    this.defaultCountry = 'All countries',
-    this.defaultSize = 'All sizes',
+    this.defaultCountry = 'All countries';
+    this.defaultSize = 'All sizes';
     this.state = {
       isLoading: false,
       error: null,
@@ -171,26 +166,25 @@ class ShopSearch extends React.Component {
 
     return (
       <div>
-        <Paper style={styles.paperContainer} zDepth={1} >
-          <ShopSearchFilter
-            name="countryFilter"
-            default={this.defaultCountry}
-            value={this.state.countryFilter}
-            onChange={this.handleChange}
-            countries={uniqueCountries}
-          />
-          <ShopSearchFilter
-            name="sizeFilter"
-            default={this.defaultSize}
-            value={this.state.sizeFilter}
-            onChange={this.handleChange}
-            countries={uniqueSizes}
-          />
-          <ShopCardList shops={this.filterShops({
-            country: this.state.countryFilter,
-            size: this.state.sizeFilter,
-          })} />
-        </Paper>
+        <ShopSearchFilter
+          name="countryFilter"
+          default={this.defaultCountry}
+          value={this.state.countryFilter}
+          onChange={this.handleChange}
+          entries={uniqueCountries}
+        />
+        <ShopSearchFilter
+          name="sizeFilter"
+          default={this.defaultSize}
+          value={this.state.sizeFilter}
+          onChange={this.handleChange}
+          entries={uniqueSizes}
+        />
+        <ShopCardList shops={this.filterShops({
+          country: this.state.countryFilter,
+          size: this.state.sizeFilter,
+        })}
+        />
       </div>
     );
   }

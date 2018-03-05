@@ -33,7 +33,7 @@ class ShopSearchFilter extends React.Component {
           value={this.props.default}
           primaryText={this.props.default}
         />
-        {this.props.countries.map(country =>
+        {this.props.entries.map(country =>
           <MenuItem value={country} primaryText={country} key={country} />)}
       </DropDownMenu>
     );
@@ -41,7 +41,10 @@ class ShopSearchFilter extends React.Component {
 }
 
 ShopSearchFilter.propTypes = {
-  countries: PropTypes.arrayOf(PropTypes.string),
+  entries: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ])),
   default: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
@@ -52,7 +55,7 @@ ShopSearchFilter.propTypes = {
 };
 
 ShopSearchFilter.defaultProps = {
-  countries: [],
+  entries: [],
   default: 'All',
   name: '',
   onChange: {},
