@@ -12,7 +12,7 @@ class Shop {
     this.mentions = parseInt(data.mentions, 10) || 0;
     this.relationship = parseInt(data.relationship, 10) || 0;
     this.shopname = data.shopname || '';
-    this.size = parseInt(data.size, 10) || '';
+    this.size = data.size || '';
     this.type = parseInt(data.type, 10) || '';
     this.website = data.website || '';
   }

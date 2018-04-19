@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import Shop from './Shop';
-import ShopSearchFilter from './ShopSearchFilter';
+import ShopSearchMultiFilter from './ShopSearchMultiFilter';
 import ShopCardList from './ShopCardList';
 import cachedFetch from './cachedFetch';
 
@@ -32,14 +32,16 @@ const styles = {
 class ShopSearch extends React.Component {
   constructor(props) {
     super(props);
-    this.defaultCountry = 'All countries';
-    this.defaultSize = 'All sizes';
+    this.defaults = {
+      country: 'All countries',
+      size: 'All sizes',
+    };
     this.state = {
       isLoading: false,
       error: null,
       errorCount: 0,
-      countryFilter: this.defaultCountry,
-      sizeFilter: this.defaultSize,
+      countryFilter: [this.defaults.country],
+      sizeFilter: [this.defaults.size],
       shops: [],
     };
 
@@ -87,16 +89,24 @@ class ShopSearch extends React.Component {
    * @param {object} filters Shop key-value pairs
    */
   filterShops(filters) {
-    let filteredShops = this.state.shops;
+    let shopList = this.state.shops;
+
     // Filter by country
-    if (this.state.countryFilter !== this.defaultCountry) {
-      filteredShops = filteredShops.filter(shop => shop.country === filters.country);
+    if (this.state.countryFilter.indexOf(this.defaults.country) < 0) {
+      // Check selected country filters
+      shopList = shopList.filter(shop => filters.country.indexOf(shop.country) > -1);
     }
     // Filter by size
-    if (this.state.sizeFilter !== this.defaultSize) {
-      filteredShops = filteredShops.filter(shop => shop.size === filters.size);
+    if (this.state.sizeFilter.indexOf(this.defaults.size) < 0) {
+      console.log('Applying size filter');
+      // Shop sizes are numbers whereas the size values in our filter are strings.
+      // Cast size value to string before comparing.
+      // TODO: Treat sizes as strings from the beginning.
+      shopList = shopList.filter(shop => filters.size.indexOf(shop.size) > -1);
     }
-    return filteredShops;
+    console.log(shopList);
+
+    return shopList;
   }
 
 
@@ -127,7 +137,14 @@ class ShopSearch extends React.Component {
 
 
   render() {
-    const { isLoading, error } = this.state;
+    const {
+      isLoading,
+      error,
+      errorCount,
+      shops,
+      sizeFilter,
+      countryFilter,
+    } = this.state;
 
     // Loading resulted in an error. Display a message and retry button.
     if (error) {
@@ -143,7 +160,7 @@ class ShopSearch extends React.Component {
             }}
           />
           <br />
-          <p style={styles.errorText}>{this.state.error.toString()} ({this.state.errorCount})</p>
+          <p style={styles.errorText}>{error.toString()} ({errorCount})</p>
         </div>
       );
     }
@@ -158,31 +175,33 @@ class ShopSearch extends React.Component {
     }
 
     // List of countries
-    const uniqueCountries = [...new Set(this.state.shops.map(shop => shop.country))];
+    const uniqueCountries = [...new Set(shops.map(shop => shop.country))];
     uniqueCountries.sort();
     // List of shop sizes
-    const uniqueSizes = [...new Set(this.state.shops.map(shop => shop.size))];
+    const uniqueSizes = [...new Set(shops.map(shop => shop.size))];
     uniqueSizes.sort();
 
     return (
       <div>
-        <ShopSearchFilter
+        <ShopSearchMultiFilter
           name="countryFilter"
-          default={this.defaultCountry}
-          value={this.state.countryFilter}
+          defaultValue={this.defaults.country}
+          value={countryFilter}
           onChange={this.handleChange}
           entries={uniqueCountries}
+          multiple
         />
-        <ShopSearchFilter
+        <ShopSearchMultiFilter
           name="sizeFilter"
-          default={this.defaultSize}
-          value={this.state.sizeFilter}
+          defaultValue={this.defaults.size}
+          value={sizeFilter}
           onChange={this.handleChange}
           entries={uniqueSizes}
+          multiple
         />
         <ShopCardList shops={this.filterShops({
-          country: this.state.countryFilter,
-          size: this.state.sizeFilter,
+          country: countryFilter,
+          size: sizeFilter,
         })}
         />
       </div>

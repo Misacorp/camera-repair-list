@@ -21,19 +21,26 @@ class ShopSearchFilter extends React.Component {
 
 
   render() {
+    const {
+      defaultValue,
+      name,
+      value,
+      entries,
+    } = this.props;
+
     return (
       <DropDownMenu
-        value={this.props.value}
-        onChange={(event, index, value) => {
-          this.handler(this.props.name, value);
+        value={value}
+        onChange={(event, index, newValue) => {
+          this.handler(name, newValue);
         }}
-        labelStyle={this.props.default === this.props.value ? styles.defaultSelection : null}
+        labelStyle={defaultValue === value ? styles.defaultSelection : null}
       >
         <MenuItem
-          value={this.props.default}
-          primaryText={this.props.default}
+          value={defaultValue}
+          primaryText={defaultValue}
         />
-        {this.props.entries.map(country =>
+        {entries.map(country =>
           <MenuItem value={country} primaryText={country} key={country} />)}
       </DropDownMenu>
     );
@@ -45,7 +52,7 @@ ShopSearchFilter.propTypes = {
     PropTypes.number,
     PropTypes.string,
   ])),
-  default: PropTypes.string,
+  defaultValue: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
   value: PropTypes.oneOfType([
@@ -56,7 +63,7 @@ ShopSearchFilter.propTypes = {
 
 ShopSearchFilter.defaultProps = {
   entries: [],
-  default: 'All',
+  defaultValue: 'All',
   name: '',
   onChange: {},
   value: '',
