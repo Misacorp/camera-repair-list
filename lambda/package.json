@@ -1,16 +1,19 @@
 {
-  "name": "cameramakers-lambda",
+  "name": "camera-repair-list-lambda",
   "version": "1.0.0",
-  "description": "AWS Lambda function to fetch camera repair shop data from Google Sheets.",
-  "main": "index.js",
+  "description": "Camera repair list back end functions",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Misacorp",
+  "license": "MIT",
   "dependencies": {
     "google-spreadsheet": "^2.0.4"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "zip": "zip -r lambda node_modules index.js"
-  },
-  "author": "Misacorp",
-  "license": "MIT"
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0"
+  }
 }

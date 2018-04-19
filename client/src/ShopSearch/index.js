@@ -195,7 +195,7 @@ ShopSearch.propTypes = {
 };
 
 ShopSearch.defaultProps = {
-  source: 'https://api.cameramakers.com/production',
+  source: 'https://nlotov46uh.execute-api.eu-west-1.amazonaws.com/dev/getRepairShops',
 };
 
 export default ShopSearch;

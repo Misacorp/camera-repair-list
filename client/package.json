@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://misacorp.github.io/cameramakers",
+  "homepage": "https://misacorp.github.io/camera-repair-list",
   "dependencies": {
     "eslint": "4.17.0",
     "eslint-config-airbnb": "^16.1.0",

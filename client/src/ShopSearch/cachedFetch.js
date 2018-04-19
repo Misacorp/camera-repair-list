@@ -38,6 +38,7 @@ function cachedFetch(url, o) {
   return new Promise((resolve, reject) => {
     fetch(url, options)
       .then((response) => {
+        console.log(response);
         // Only store JSON or non-binary objects in cache.
         if (response.status === 200) {
           const contentType = response.headers.get('Content-Type');
