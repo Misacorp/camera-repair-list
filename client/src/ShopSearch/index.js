@@ -35,7 +35,7 @@ class ShopSearch extends React.Component {
     this.defaults = {
       country: 'All countries',
       size: 'All sizes',
-      equipment: 'Equipment type',
+      equipment: 'Any equipment',
     };
     this.state = {
       isLoading: false,
@@ -68,11 +68,13 @@ class ShopSearch extends React.Component {
    * Fetch shop data to populate cards.
    * @param string url URL from which to fetch shop data.
    */
-  getShopData(url) {
+  getShopData(url, forceRefresh) {
     this.setState({ isLoading: true });
 
+    const cacheTime = forceRefresh ? 0 : 86400;
+
     // Get shop data from API
-    cachedFetch(url, 86400) // One day cache
+    cachedFetch(url, cacheTime) // One day cache
       .then((response) => {
         // Try to parse response as JSON
         response.json()
@@ -261,6 +263,17 @@ class ShopSearch extends React.Component {
           equipment: equipmentFilter,
         })}
         />
+
+        <div style={styles.errorContainer} >
+          <RaisedButton
+            label={isLoading ? 'Loading...' : 'Clear cache and refresh data'}
+            secondary
+            disabled={isLoading}
+            onClick={() => {
+              this.getShopData(this.props.source, true);
+            }}
+          />
+        </div>
       </div>
     );
   }
