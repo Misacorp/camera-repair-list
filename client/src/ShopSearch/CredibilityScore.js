@@ -23,10 +23,11 @@ function CredibilityScore(props) {
   score *= 100;
 
   // Set color based on score
-  let color = '#A8383B';
-  if (score > 25) color = '#DC761E';
-  if (score > 50) color = '#D4DB1E';
-  if (score > 80) color = '#5B9632';
+  const color = '#5BCF32';
+  // let color = '#A8383B';
+  // if (score > 25) color = '#DC761E';
+  // if (score > 50) color = '#D4DB1E';
+  // if (score > 80) color = '#5B9632';
 
   return (
     <div>
@@ -34,7 +35,7 @@ function CredibilityScore(props) {
         mode="determinate"
         value={score}
         color={color}
-        style={{ maxWidth: '100px' }}
+        style={{ maxWidth: '100px', backgroundColor: '#DDD' }}
       />
       <p>
         The credibility score is based on how many times this shop has been
