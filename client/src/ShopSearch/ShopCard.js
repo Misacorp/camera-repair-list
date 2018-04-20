@@ -73,12 +73,6 @@ class ShopCard extends React.Component {
             expandable
             style={styles.cardText}
           >
-            <ColList title="Credibility Score" >
-              <ColListItem>
-                <CredibilityScore mentions={shop.mentions} relationship={shop.relationship} />
-              </ColListItem>
-            </ColList>
-
             <ColList title="Contact" >
               <ColListItem>
                 <EmailIcon style={styles.icon} />{shop.email}
@@ -113,6 +107,12 @@ class ShopCard extends React.Component {
               <ColListItem>Size: {shop.size}</ColListItem>
               <ColListItem>Type: {shop.type}</ColListItem>
               <ColListItem>Future: {shop.future}</ColListItem>
+            </ColList>
+
+            <ColList title="Credibility Score" >
+              <ColListItem>
+                <CredibilityScore mentions={shop.mentions} relationship={shop.relationship} />
+              </ColListItem>
             </ColList>
           </CardText>
         </Card>

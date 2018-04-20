@@ -35,6 +35,7 @@ class ShopSearch extends React.Component {
     this.defaults = {
       country: 'All countries',
       size: 'All sizes',
+      equipment: 'Equipment type',
     };
     this.state = {
       isLoading: false,
@@ -42,8 +43,16 @@ class ShopSearch extends React.Component {
       errorCount: 0,
       countryFilter: [this.defaults.country],
       sizeFilter: [this.defaults.size],
+      equipmentFilter: [this.defaults.equipment],
       shops: [],
     };
+    this.equipment = [
+      'Analog Mechanical Cameras',
+      'Analog Electronic Cameras',
+      'Manual Focus Lenses',
+      'Autofocus Lenses',
+      'Modern Digital Cameras and Lenses',
+    ];
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -86,25 +95,62 @@ class ShopSearch extends React.Component {
 
   /**
    * Filter shops based on different conditions
-   * @param {object} filters Shop key-value pairs
+   * @param {object} filters Shop key-value pairs ex. { country: 'Finland', size: '4' }
    */
   filterShops(filters) {
+    const { countryFilter, sizeFilter, equipmentFilter } = this.state;
     let shopList = this.state.shops;
 
     // Filter by country
-    if (this.state.countryFilter.indexOf(this.defaults.country) < 0) {
-      // Check selected country filters
+    if (countryFilter.indexOf(this.defaults.country) < 0) {
       shopList = shopList.filter(shop => filters.country.indexOf(shop.country) > -1);
     }
     // Filter by size
-    if (this.state.sizeFilter.indexOf(this.defaults.size) < 0) {
-      console.log('Applying size filter');
-      // Shop sizes are numbers whereas the size values in our filter are strings.
-      // Cast size value to string before comparing.
-      // TODO: Treat sizes as strings from the beginning.
+    if (sizeFilter.indexOf(this.defaults.size) < 0) {
       shopList = shopList.filter(shop => filters.size.indexOf(shop.size) > -1);
     }
-    console.log(shopList);
+
+    // Filter by equipment
+    if (equipmentFilter.indexOf(this.defaults.equipment) < 0) {
+      // Initialize an empty array where we will eventually add shops that pass the equipment filter
+      const goodShops = [];
+
+      // Loop through all shop entries
+      for (let i = 0; i < shopList.length; i += 1) {
+        /**
+         * Shops store the equipment they service as an array of booleans
+         * ex. [true, false, false, true, false]
+         *
+         * Here we will transform this array into a string array of what the shop actually services.
+         * ex. ['Analog Mechanical Cameras', 'Autofocus Lenses']
+         *
+         * Using this array we can apply filters to shop equipment.
+         */
+
+        const shop = shopList[i];
+
+        // Initialize an array to store what equipment a shop services in string form.
+        const shopEquipment = [];
+
+        // Go through all possible equipment strings ex. 'Analog Mechanical Cameras'
+        for (let j = 0; j < this.equipment.length; j += 1) {
+          /**
+           * If a shop's equipment# property is true for a particular string, add it to
+           * shopEquipment.
+           * Equipment# properties are numbered 1-5 so we use 'j + 1'.
+           */
+          if (shop[`equipment${j + 1}`]) shopEquipment.push(this.equipment[j]);
+        }
+
+        // Compare shopEquipment with current set of equipment filters.
+        // If shopEquipment contains all the wanted equipment, add it to shopList.
+        const isGood = equipmentFilter.every(item => shopEquipment.includes(item));
+        if (isGood) goodShops.push(shop);
+      }
+
+      // Update shopList with newly filtered shops.
+      shopList = goodShops;
+    }
 
     return shopList;
   }
@@ -144,6 +190,7 @@ class ShopSearch extends React.Component {
       shops,
       sizeFilter,
       countryFilter,
+      equipmentFilter,
     } = this.state;
 
     // Loading resulted in an error. Display a message and retry button.
@@ -180,6 +227,8 @@ class ShopSearch extends React.Component {
     // List of shop sizes
     const uniqueSizes = [...new Set(shops.map(shop => shop.size))];
     uniqueSizes.sort();
+    // List of equipment
+    const { equipment } = this;
 
     return (
       <div>
@@ -189,7 +238,6 @@ class ShopSearch extends React.Component {
           value={countryFilter}
           onChange={this.handleChange}
           entries={uniqueCountries}
-          multiple
         />
         <ShopSearchMultiFilter
           name="sizeFilter"
@@ -199,9 +247,18 @@ class ShopSearch extends React.Component {
           entries={uniqueSizes}
           multiple
         />
+        <ShopSearchMultiFilter
+          name="equipmentFilter"
+          defaultValue={this.defaults.equipment}
+          value={equipmentFilter}
+          onChange={this.handleChange}
+          entries={equipment}
+          multiple
+        />
         <ShopCardList shops={this.filterShops({
           country: countryFilter,
           size: sizeFilter,
+          equipment: equipmentFilter,
         })}
         />
       </div>
