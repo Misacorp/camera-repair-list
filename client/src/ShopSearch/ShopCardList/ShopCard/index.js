@@ -109,7 +109,7 @@ class ShopCard extends React.Component {
 
             <ColList title="Shop" >
               <ColListItem>
-                <ShopSize size={shop.size} iconStyle={styles.icon} />
+                <ShopSize size={shop.size} />
               </ColListItem>
 
               <ColListItem>
