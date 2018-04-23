@@ -5,13 +5,17 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import GlobeIcon from 'material-ui/svg-icons/social/public';
 
-import ColList from './ColList/';
-import ColListItem from './ColList/ColListItem';
+import ColList from '../../ColList/';
+import ColListItem from '../../ColList/ColListItem';
 import ConditionalText from './ConditionalText';
 import CredibilityScore from './CredibilityScore';
-import Shop from './Shop';
+import Shop from '../../Shop';
+import ShopFuture from './ShopFuture';
+import ShopSize from './ShopSize';
+import ShopType from './ShopType';
+
 import flagFetcher from './flagFetcher';
-import loadingIcon from '../assets/img/ic_image_white_24px.svg';
+import loadingIcon from '../../../assets/img/ic_image_white_24px.svg';
 
 const styles = {
   cardContainer: {
@@ -104,9 +108,17 @@ class ShopCard extends React.Component {
             </ColList>
 
             <ColList title="Shop" >
-              <ColListItem>Size: {shop.size}</ColListItem>
-              <ColListItem>Type: {shop.type}</ColListItem>
-              <ColListItem>Future: {shop.future}</ColListItem>
+              <ColListItem>
+                <ShopSize size={shop.size} iconStyle={styles.icon} />
+              </ColListItem>
+
+              <ColListItem>
+                <ShopType type={shop.type} iconStyle={styles.icon} />
+              </ColListItem>
+
+              <ColListItem>
+                <ShopFuture future={shop.future} iconStyle={styles.icon} />
+              </ColListItem>
             </ColList>
 
             <ColList title="Credibility Score" >

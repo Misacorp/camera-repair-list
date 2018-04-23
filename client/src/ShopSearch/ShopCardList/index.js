@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ShopCard from './ShopCard';
-import Shop from './Shop';
+import Shop from '../Shop';
 
 function ShopCardList(props) {
   return (

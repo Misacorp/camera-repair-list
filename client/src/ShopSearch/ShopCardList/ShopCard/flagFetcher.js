@@ -1,4 +1,4 @@
-import cachedFetch from './cachedFetch';
+import cachedFetch from '../../cachedFetch';
 
 export default {
 /**

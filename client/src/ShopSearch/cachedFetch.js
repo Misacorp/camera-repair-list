@@ -27,12 +27,10 @@ function cachedFetch(url, o) {
     const age = (Date.now() - whenCached) / 1000;
     if (age < expiry) {
       // Resource is still valid. Return it from cache.
-      console.log('Serving cached resource');
       const response = new Response(new Blob([cached]));
       return Promise.resolve(response);
     }
     // Resource is outdated. Clean up old entry and timestamp.
-    console.log('Fetching fresh resource');
     localStorage.removeItem(cacheKey);
     localStorage.removeItem(`${cacheKey}:ts`);
   }
