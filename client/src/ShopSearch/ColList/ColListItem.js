@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const styles = {
-  container: {
-    width: '50%',
-    display: 'inline-block',
-  },
-  title: {
-    fontWeight: 'bold',
-  },
-};
-
 function ColList(props) {
+  const styles = {
+    container: {
+      width: `${100 / props.columns}%`,
+      display: 'inline-block',
+    },
+    title: {
+      fontWeight: 'bold',
+    },
+  };
+
   return (
     <div style={styles.container}>
       {props.children}
@@ -21,10 +21,12 @@ function ColList(props) {
 
 ColList.propTypes = {
   children: PropTypes.node,
+  columns: PropTypes.number,
 };
 
 ColList.defaultProps = {
   children: 'Default content',
+  columns: 2,
 };
 
 export default ColList;

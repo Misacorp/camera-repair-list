@@ -10,9 +10,7 @@ import ColListItem from '../../ColList/ColListItem';
 import ConditionalText from './ConditionalText';
 import CredibilityScore from './CredibilityScore';
 import Shop from '../../Shop';
-import ShopFuture from './ShopFuture';
-import ShopSize from './ShopSize';
-import ShopType from './ShopType';
+import ShopFact from './ShopFact';
 
 import flagFetcher from './flagFetcher';
 import loadingIcon from '../../../assets/img/ic_image_white_24px.svg';
@@ -87,19 +85,19 @@ class ShopCard extends React.Component {
             </ColList>
 
             <ColList title="Services">
-              <ColListItem>
+              <ColListItem columns={3}>
                 <ConditionalText text="Analog Mechanical Cameras" enabled={shop.equipment1} />
               </ColListItem>
-              <ColListItem>
+              <ColListItem columns={3}>
                 <ConditionalText text="Analog Electronic Cameras" enabled={shop.equipment2} />
               </ColListItem>
-              <ColListItem>
+              <ColListItem columns={3}>
                 <ConditionalText text="Manual Focus Lenses" enabled={shop.equipment3} />
               </ColListItem>
-              <ColListItem>
+              <ColListItem columns={3}>
                 <ConditionalText text="Autofocus Lenses" enabled={shop.equipment4} />
               </ColListItem>
-              <ColListItem>
+              <ColListItem columns={3}>
                 <ConditionalText
                   text="Modern Digital Cameras and Lenses"
                   enabled={shop.equipment5}
@@ -107,22 +105,22 @@ class ShopCard extends React.Component {
               </ColListItem>
             </ColList>
 
-            <ColList title="Shop" >
-              <ColListItem>
-                <ShopSize size={shop.size} />
+            <ColList title="Shop">
+              <ColListItem columns={3}>
+                <ShopFact type="size" value={shop.size} />
               </ColListItem>
 
-              <ColListItem>
-                <ShopType type={shop.type} iconStyle={styles.icon} />
+              <ColListItem columns={3}>
+                <ShopFact type="type" value={shop.type} />
               </ColListItem>
 
-              <ColListItem>
-                <ShopFuture future={shop.future} iconStyle={styles.icon} />
+              <ColListItem columns={3}>
+                <ShopFact type="future" value={shop.future} />
               </ColListItem>
             </ColList>
 
             <ColList title="Credibility Score" >
-              <ColListItem>
+              <ColListItem columns={1}>
                 <CredibilityScore mentions={shop.mentions} relationship={shop.relationship} />
               </ColListItem>
             </ColList>

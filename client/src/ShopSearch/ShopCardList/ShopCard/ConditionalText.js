@@ -5,6 +5,11 @@ import Checkbox from 'material-ui/Checkbox';
 const styles = {
   enabledIcon: {
     color: 'red',
+    backgroundColor: 'red',
+  },
+  enabledInput: {
+    color: 'yellow',
+    backgroundColor: 'yellow',
   },
   enabledText: {
     color: '#333',
@@ -20,7 +25,7 @@ function ConditionalText(props) {
     return (
       <Checkbox
         label={props.text}
-        inputStyle={styles.enabled}
+        inputStyle={styles.enabledInput}
         labelStyle={styles.enabledText}
         disabled
         checked

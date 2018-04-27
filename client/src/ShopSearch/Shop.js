@@ -13,7 +13,7 @@ class Shop {
     this.relationship = parseInt(data.relationship, 10) || 0;
     this.shopname = data.shopname || '';
     this.size = data.size || '';
-    this.type = parseInt(data.type, 10) || '';
+    this.type = data.type || '';
     this.website = data.website || '';
   }
 

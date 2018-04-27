@@ -8,8 +8,9 @@ import ShopCardList from './ShopCardList';
 import cachedFetch from './cachedFetch';
 
 const styles = {
-  shopCardList: {
-    textAlign: 'center',
+  ShopCardList: {
+    textAlign: 'left',
+    maxWidth: '1080px',
   },
   loadingContainer: {
     textAlign: 'center',
@@ -32,6 +33,7 @@ const styles = {
 class ShopSearch extends React.Component {
   constructor(props) {
     super(props);
+    this.MAXLENGTH = 10; // Max number of shops to display
     this.defaults = {
       country: 'All countries',
       size: 'All sizes',
@@ -154,7 +156,10 @@ class ShopSearch extends React.Component {
       shopList = goodShops;
     }
 
-    return shopList;
+    return {
+      shops: shopList.splice(0, this.MAXLENGTH),
+      length: shopList.length,
+    };
   }
 
 
@@ -232,8 +237,15 @@ class ShopSearch extends React.Component {
     // List of equipment
     const { equipment } = this;
 
+    // Filter shop list
+    const filterResult = this.filterShops({
+      country: countryFilter,
+      size: sizeFilter,
+      equipment: equipmentFilter,
+    });
+
     return (
-      <div>
+      <div style={styles.ShopCardList}>
         <ShopSearchMultiFilter
           name="countryFilter"
           defaultValue={this.defaults.country}
@@ -257,12 +269,14 @@ class ShopSearch extends React.Component {
           entries={equipment}
           multiple
         />
-        <ShopCardList shops={this.filterShops({
-          country: countryFilter,
-          size: sizeFilter,
-          equipment: equipmentFilter,
-        })}
-        />
+        <ShopCardList shops={filterResult.shops} />
+        {filterResult.length > this.MAXLENGTH ?
+          <p>
+            Showing {this.MAXLENGTH} of {filterResult.length} shops.
+            Apply filters to refine your search.
+          </p> :
+          null
+        }
 
         <div style={styles.errorContainer} >
           <RaisedButton
