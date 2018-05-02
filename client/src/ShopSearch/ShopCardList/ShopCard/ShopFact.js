@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import PersonIcon from 'material-ui/svg-icons/social/person';
 
-import AccountBalanceIcon from 'material-ui/svg-icons/action/account-balance';
-import StoreIcon from 'material-ui/svg-icons/action/store';
-import DomainIcon from 'material-ui/svg-icons/social/domain';
+import IndividualSpareTimeIcon from 'material-ui/svg-icons/action/face';
+import IndividualFullTimeIcon from 'material-ui/svg-icons/action/store';
+import RegisteredCompanyIcon from 'material-ui/svg-icons/communication/business';
 
 import VeryDissatisfied from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import Dissatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied';
@@ -55,15 +55,15 @@ texts.size = [
 // Assign different types
 texts.type = [
   {
-    icon: <AccountBalanceIcon style={styles.icon} />,
+    icon: <IndividualSpareTimeIcon style={styles.icon} />,
     text: 'Individual repairing in their spare time',
   },
   {
-    icon: <StoreIcon style={styles.icon} />,
+    icon: <IndividualFullTimeIcon style={styles.icon} />,
     text: 'Individual repairing full time',
   },
   {
-    icon: <DomainIcon style={styles.icon} />,
+    icon: <RegisteredCompanyIcon style={styles.icon} />,
     text: 'Registered company',
   },
 ];

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sizeMe from 'react-sizeme';
 
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
@@ -56,6 +57,22 @@ class ShopCard extends React.Component {
   render() {
     const { shop } = this.state;
 
+    // Tweak columns based on component width
+    const { width } = this.props.size;
+
+    let contactColumns = 2;
+    let equipmentColumns = 2;
+    let shopFactColumns = 3;
+
+    if (width < 700) {
+      contactColumns = 1;
+      equipmentColumns = 1;
+    }
+    if (width < 500) {
+      shopFactColumns = 1;
+    }
+
+    // Build a shop's 'subtitle' from its address
     let subtitle = this.state.shop.country;
     if (this.state.shop.address) {
       subtitle = `${this.state.shop.address}, ${subtitle}`;
@@ -76,28 +93,28 @@ class ShopCard extends React.Component {
             style={styles.cardText}
           >
             <ColList title="Contact" >
-              <ColListItem>
+              <ColListItem columns={contactColumns}>
                 <EmailIcon style={styles.icon} />{shop.email}
               </ColListItem>
-              <ColListItem>
-                <GlobeIcon style={styles.icon} />{shop.website}
+              <ColListItem columns={contactColumns}>
+                <GlobeIcon style={styles.icon} /><a href={shop.website}>{shop.website}</a>
               </ColListItem>
             </ColList>
 
             <ColList title="Services">
-              <ColListItem columns={3}>
+              <ColListItem columns={equipmentColumns}>
                 <ConditionalText text="Analog Mechanical Cameras" enabled={shop.equipment1} />
               </ColListItem>
-              <ColListItem columns={3}>
+              <ColListItem columns={equipmentColumns}>
                 <ConditionalText text="Analog Electronic Cameras" enabled={shop.equipment2} />
               </ColListItem>
-              <ColListItem columns={3}>
+              <ColListItem columns={equipmentColumns}>
                 <ConditionalText text="Manual Focus Lenses" enabled={shop.equipment3} />
               </ColListItem>
-              <ColListItem columns={3}>
+              <ColListItem columns={equipmentColumns}>
                 <ConditionalText text="Autofocus Lenses" enabled={shop.equipment4} />
               </ColListItem>
-              <ColListItem columns={3}>
+              <ColListItem columns={equipmentColumns}>
                 <ConditionalText
                   text="Modern Digital Cameras and Lenses"
                   enabled={shop.equipment5}
@@ -106,15 +123,15 @@ class ShopCard extends React.Component {
             </ColList>
 
             <ColList title="Shop">
-              <ColListItem columns={3}>
+              <ColListItem columns={shopFactColumns}>
                 <ShopFact type="size" value={shop.size} />
               </ColListItem>
 
-              <ColListItem columns={3}>
+              <ColListItem columns={shopFactColumns}>
                 <ShopFact type="type" value={shop.type} />
               </ColListItem>
 
-              <ColListItem columns={3}>
+              <ColListItem columns={shopFactColumns}>
                 <ShopFact type="future" value={shop.future} />
               </ColListItem>
             </ColList>
@@ -133,10 +150,14 @@ class ShopCard extends React.Component {
 
 ShopCard.propTypes = {
   shop: PropTypes.instanceOf(Shop),
+  size: PropTypes.shape({
+    width: PropTypes.number,
+  }),
 };
 
 ShopCard.defaultProps = {
   shop: { shopname: 'Default shop' },
+  size: { width: 1080 },
 };
 
-export default ShopCard;
+export default sizeMe()(ShopCard);
