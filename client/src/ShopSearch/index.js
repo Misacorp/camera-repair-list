@@ -36,7 +36,6 @@ class ShopSearch extends React.Component {
     this.MAXLENGTH = 10; // Max number of shops to display
     this.defaults = {
       country: 'All countries',
-      size: 'All sizes',
       equipment: 'Any equipment',
     };
     this.state = {
@@ -44,7 +43,6 @@ class ShopSearch extends React.Component {
       error: null,
       errorCount: 0,
       countryFilter: [this.defaults.country],
-      sizeFilter: [this.defaults.size],
       equipmentFilter: [this.defaults.equipment],
       shops: [],
     };
@@ -102,16 +100,12 @@ class ShopSearch extends React.Component {
    * @param {object} filters Shop key-value pairs ex. { country: 'Finland', size: '4' }
    */
   filterShops(filters) {
-    const { countryFilter, sizeFilter, equipmentFilter } = this.state;
+    const { countryFilter, equipmentFilter } = this.state;
     let shopList = this.state.shops;
 
     // Filter by country
     if (countryFilter.indexOf(this.defaults.country) < 0) {
       shopList = shopList.filter(shop => filters.country.indexOf(shop.country) > -1);
-    }
-    // Filter by size
-    if (sizeFilter.indexOf(this.defaults.size) < 0) {
-      shopList = shopList.filter(shop => filters.size.indexOf(shop.size) > -1);
     }
 
     // Filter by equipment
@@ -195,7 +189,6 @@ class ShopSearch extends React.Component {
       error,
       errorCount,
       shops,
-      sizeFilter,
       countryFilter,
       equipmentFilter,
     } = this.state;
@@ -231,16 +224,12 @@ class ShopSearch extends React.Component {
     // List of countries
     const uniqueCountries = [...new Set(shops.map(shop => shop.country))];
     uniqueCountries.sort();
-    // List of shop sizes
-    const uniqueSizes = [...new Set(shops.map(shop => shop.size))];
-    uniqueSizes.sort();
     // List of equipment
     const { equipment } = this;
 
     // Filter shop list
     const filterResult = this.filterShops({
       country: countryFilter,
-      size: sizeFilter,
       equipment: equipmentFilter,
     });
 
@@ -252,13 +241,6 @@ class ShopSearch extends React.Component {
           value={countryFilter}
           onChange={this.handleChange}
           entries={uniqueCountries}
-        />
-        <ShopSearchMultiFilter
-          name="sizeFilter"
-          defaultValue={this.defaults.size}
-          value={sizeFilter}
-          onChange={this.handleChange}
-          entries={uniqueSizes}
           multiple
         />
         <ShopSearchMultiFilter
