@@ -52,7 +52,7 @@ const styles = {
     transform: 'translate(-50%, 0)',
 
     transitionProperty: 'opacity, transform',
-    transitionDuration: '0.3s',
+    transitionDuration: '0.2s',
     transitionTimingFunction: 'ease-out',
 
     pointerEvents: 'none',

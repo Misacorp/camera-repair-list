@@ -5,6 +5,7 @@ import sizeMe from 'react-sizeme';
 import Avatar from 'material-ui/Avatar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
+import RaisedButton from 'material-ui/RaisedButton';
 import GlobeIcon from 'material-ui/svg-icons/social/public';
 
 import ColList from '../../ColList/';
@@ -21,6 +22,30 @@ const styles = {
   cardContainer: {
     paddingBottom: 0,
   },
+  card: {
+    general: {
+      transition: 'background-color 0.2s ease-out',
+    },
+    expanded: {
+      header: {
+        backgroundColor: '#000',
+      },
+      text: {
+        color: '#FFF',
+      },
+    },
+    closed: {
+      header: {
+        backgroundColor: 'initial',
+      },
+      text: {
+        color: 'initial',
+      },
+    },
+  },
+  cardActions: {
+    textAlign: 'center',
+  },
   icon: {
     verticalAlign: 'middle',
     paddingRight: '1em',
@@ -32,6 +57,7 @@ const styles = {
   },
   avatar: {
     overflow: 'hidden',
+    boxShadow: '2px 2px 3px rgba(0,0,0,0.3)',
   },
   avatarImage: {
     backgroundRepeat: 'no-repeat',
@@ -48,6 +74,7 @@ class ShopCard extends React.Component {
     this.state = {
       flagImage: loadingIcon,
       shop: props.shop,
+      expanded: false,
     };
   }
 
@@ -90,14 +117,28 @@ class ShopCard extends React.Component {
       subtitle = `${this.state.shop.address}, ${subtitle}`;
     }
 
+    // Get expanded and closed styles
+    const { expanded, closed } = styles.card;
+
     return (
       <div>
-        <Card key={shop.shopname} containerStyle={styles.cardContainer} >
+        <Card
+          key={shop.shopname}
+          containerStyle={styles.cardContainer}
+          onExpandChange={newState => this.setState({ expanded: newState })}
+        >
           <CardHeader
             title={this.state.shop.shopname}
             subtitle={subtitle}
             actAsExpander
             showExpandableButton
+            style={this.state.expanded ?
+              { ...styles.card.general, ...expanded.header } :
+              { ...styles.card.general, ...closed.header }
+            }
+            titleColor={this.state.expanded ? expanded.text.color : closed.text.color}
+            subtitleColor={this.state.expanded ? expanded.text.color : closed.text.color}
+            iconStyle={this.state.expanded ? expanded.text : closed.text}
             avatar={
               <Avatar
                 style={styles.avatar}
@@ -157,6 +198,11 @@ class ShopCard extends React.Component {
             <ColList title="Data Accuracy" >
               <ColListItem columns={1}>
                 <DataAccuracy mentions={shop.mentions} relationship={shop.relationship} />
+                <RaisedButton
+                  label="Submit more data"
+                  primary
+                  href={`//cameraventures.com/repairraffle?shopname=${encodeURI(shop.shopname)}&country=${encodeURI(shop.country)}`}
+                />
               </ColListItem>
             </ColList>
           </CardText>
