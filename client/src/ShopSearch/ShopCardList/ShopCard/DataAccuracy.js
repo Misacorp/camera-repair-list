@@ -38,8 +38,9 @@ function DataAccuracy(props) {
         style={{ maxWidth: '100px', backgroundColor: '#DDD' }}
       />
       <p>
-        Data accuracy reflects the reliability of our information regarding this shop.
-        The higher the score, the more users have contributed to this shop&#39;s data.
+        Based on <strong>{mentions}</strong> mentions. Data accuracy reflects the reliability
+        of our information regarding this shop. The higher the score, the more users have
+        contributed to this shop&#39;s data.
       </p>
     </div>
   );
