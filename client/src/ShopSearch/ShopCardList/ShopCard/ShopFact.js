@@ -20,6 +20,7 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
     textAlign: 'center',
+    position: 'relative',
   },
   icon: {
     width: '50px',
@@ -27,6 +28,35 @@ const styles = {
   },
   text: {
     display: 'block',
+  },
+  title: {
+    margin: 0,
+    marginBottom: '0.5em',
+  },
+  tooltip: {
+    textAlign: 'left',
+    padding: '1em',
+    borderRadius: '4px',
+    boxShadow: '3px 3px 5px rgba(0,0,0,0.15)',
+    backgroundColor: 'white',
+    color: '#AAA',
+    display: 'inline-block',
+    position: 'absolute',
+    top: '-100%',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    opacity: 1,
+    transitionProperty: 'opacity, transform',
+    transitionDuration: '0.3s',
+    transitionTimingFunction: 'ease-out',
+    pointerEvents: 'none',
+  },
+  tooltipHidden: {
+    opacity: 0,
+    transform: 'translate(-50%, 20%)',
+  },
+  selected: {
+    color: 'initial',
   },
 };
 
@@ -92,6 +122,7 @@ texts.future = [
   },
 ];
 
+
 /**
  * Display quick facts about a shop; size, type and future.
  * Icon-led three-column layout that transforms on mobile.
@@ -99,32 +130,84 @@ texts.future = [
  * @param {string} props.type The type of fact to represent.
  * @param {string} props.value The raw numeric value for this property (as a string).
  */
-function ShopFact(props) {
-  const { type, value } = props;
+class ShopFact extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tooltipOpen: false,
+    };
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+  }
 
-  // Turn value into an array index by parsing it as an integer.
-  const index = parseInt(value, 10) - 1;
-  // Get the correct icon and text.
-  const { icon, text } = texts[type][index];
 
-  return (
-    <div style={styles.container} >
-      {icon}
-      <div style={styles.text}>
-        {text}
+  /**
+   * Handle focus of a ShopFact
+   */
+  handleFocus() {
+    this.setState({ tooltipOpen: true });
+  }
+
+
+  /**
+   * Handle blur of a ShopFact
+   */
+  handleBlur() {
+    this.setState({ tooltipOpen: false });
+  }
+
+
+  render() {
+    const { type, title, value } = this.props;
+
+    // Turn value into an array index by parsing it as an integer.
+    const index = parseInt(value, 10) - 1;
+    // Get the correct icon and text.
+    const { icon, text } = texts[type][index];
+
+    // Create a tooltip component that shows all possible options for this fact.
+    const tooltip = (
+      <div style={this.state.tooltipOpen ?
+        styles.tooltip :
+        { ...styles.tooltip, ...styles.tooltipHidden }}
+      >
+        {texts[type].map((item, i) => (
+          <div key={item.text} style={index === i ? styles.selected : null}>
+            {item.text} <br />
+          </div>
+        ))}
       </div>
-    </div>
-  );
+    );
+
+    return (
+      <div
+        style={styles.container}
+        onMouseEnter={this.handleFocus}
+        onFocus={this.handleFocus}
+        onMouseLeave={this.handleBlur}
+        onBlur={this.handleBlur}
+      >
+        {tooltip}
+        {icon}
+        <h4 style={styles.title}>{title}</h4>
+        <div style={styles.text}>
+          {text}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default ShopFact;
 
 ShopFact.propTypes = {
   type: PropTypes.string,
+  title: PropTypes.string,
   value: PropTypes.string,
 };
 
 ShopFact.defaultProps = {
-  type: '',
-  value: '',
+  type: 'type',
+  title: 'title',
+  value: 'value',
 };

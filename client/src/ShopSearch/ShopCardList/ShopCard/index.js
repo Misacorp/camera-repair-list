@@ -124,15 +124,15 @@ class ShopCard extends React.Component {
 
             <ColList title="Shop">
               <ColListItem columns={shopFactColumns}>
-                <ShopFact type="size" value={shop.size} />
+                <ShopFact type="size" title="Size" value={shop.size} />
               </ColListItem>
 
               <ColListItem columns={shopFactColumns}>
-                <ShopFact type="type" value={shop.type} />
+                <ShopFact type="type" title="Type" value={shop.type} />
               </ColListItem>
 
               <ColListItem columns={shopFactColumns}>
-                <ShopFact type="future" value={shop.future} />
+                <ShopFact type="future" title="Outlook" value={shop.future} />
               </ColListItem>
             </ColList>
 
