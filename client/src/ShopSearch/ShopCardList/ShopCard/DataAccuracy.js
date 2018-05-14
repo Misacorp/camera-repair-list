@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LinearProgress from 'material-ui/LinearProgress';
 
-function CredibilityScore(props) {
+function DataAccuracy(props) {
   // Control mentions required for maximum score from it.
   const MAXMENTIONS = 50;
   const { mentions, relationship } = props;
@@ -38,22 +38,21 @@ function CredibilityScore(props) {
         style={{ maxWidth: '100px', backgroundColor: '#DDD' }}
       />
       <p>
-        The credibility score is based on how many times this shop has been
-        mentioned by users and how they have interacted with the shop. A low credibility score does
-        not mean a shop is untrustworthy, just that we do not have enough data about it.
+        Data accuracy reflects the reliability of our information regarding this shop.
+        The higher the score, the more users have contributed to this shop&#39;s data.
       </p>
     </div>
   );
 }
 
-CredibilityScore.propTypes = {
+DataAccuracy.propTypes = {
   mentions: PropTypes.number,
   relationship: PropTypes.number,
 };
 
-CredibilityScore.defaultProps = {
+DataAccuracy.defaultProps = {
   mentions: 0,
   relationship: 0,
 };
 
-export default CredibilityScore;
+export default DataAccuracy;

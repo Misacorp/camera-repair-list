@@ -9,8 +9,11 @@ const styles = {
     color: '#AAA',
     marginRight: '1em',
   },
-  defaultSelection: {
-    color: 'red',
+  selected: {
+    color: '#000',
+  },
+  menuItem: {
+    color: '#999',
   },
 };
 
@@ -69,7 +72,9 @@ function ShopSearchMultiFilter(props) {
 
           handleChange(onChange, { name, value: newValues });
         }}
-        labelStyle={defaultValue === value ? styles.defaultSelection : null}
+        // labelStyle={defaultValue === value ? styles.defaultSelection : null}
+        menuItemStyle={styles.menuItem}
+        selectedMenuItemStyle={styles.selected}
         multiple={multiple}
         autoWidth
       >

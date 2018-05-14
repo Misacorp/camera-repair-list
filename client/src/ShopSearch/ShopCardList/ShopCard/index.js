@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import sizeMe from 'react-sizeme';
 
+import Avatar from 'material-ui/Avatar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import GlobeIcon from 'material-ui/svg-icons/social/public';
@@ -9,7 +10,7 @@ import GlobeIcon from 'material-ui/svg-icons/social/public';
 import ColList from '../../ColList/';
 import ColListItem from '../../ColList/ColListItem';
 import ConditionalText from './ConditionalText';
-import CredibilityScore from './CredibilityScore';
+import DataAccuracy from './DataAccuracy';
 import Shop from '../../Shop';
 import ShopFact from './ShopFact';
 
@@ -25,8 +26,19 @@ const styles = {
     paddingRight: '1em',
   },
   cardText: {
-    borderLeft: '5px solid #FBC02D',
     backgroundColor: '#FCFCFC',
+    // boxShadow: 'inset 0px 0px 5px 3px rgba(0, 0, 0, 0.15)',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 10px 0px inset',
+  },
+  avatar: {
+    overflow: 'hidden',
+  },
+  avatarImage: {
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
+    width: '100%',
+    height: '100%',
   },
 };
 
@@ -86,7 +98,13 @@ class ShopCard extends React.Component {
             subtitle={subtitle}
             actAsExpander
             showExpandableButton
-            avatar={this.state.flagImage}
+            avatar={
+              <Avatar
+                style={styles.avatar}
+              >
+                <div style={{ ...styles.avatarImage, backgroundImage: `url(${this.state.flagImage})` }} />
+              </Avatar>
+            }
           />
           <CardText
             expandable
@@ -136,9 +154,9 @@ class ShopCard extends React.Component {
               </ColListItem>
             </ColList>
 
-            <ColList title="Credibility Score" >
+            <ColList title="Data Accuracy" >
               <ColListItem columns={1}>
-                <CredibilityScore mentions={shop.mentions} relationship={shop.relationship} />
+                <DataAccuracy mentions={shop.mentions} relationship={shop.relationship} />
               </ColListItem>
             </ColList>
           </CardText>

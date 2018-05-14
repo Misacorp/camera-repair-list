@@ -1,7 +1,6 @@
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Paper from 'material-ui/Paper';
-import { yellow700, red400 } from 'material-ui/styles/colors';
 
 import React from 'react';
 import ShopSearch from './ShopSearch';
@@ -18,9 +17,10 @@ const styles = {
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: yellow700,
-    secondary1Color: red400,
+    primary1Color: '#000000',
+    secondary1Color: '#000000',
   },
+  fontFamily: 'Montserrat, Helvetica Neue, Roboto, Arial, sans',
 });
 
 const App = function renderApp() {

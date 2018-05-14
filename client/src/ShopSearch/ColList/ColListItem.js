@@ -6,6 +6,7 @@ function ColList(props) {
     container: {
       width: `${100 / props.columns}%`,
       display: 'inline-block',
+      verticalAlign: 'top',
     },
     title: {
       fontWeight: 'bold',

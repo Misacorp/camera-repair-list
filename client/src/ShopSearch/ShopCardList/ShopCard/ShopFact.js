@@ -34,26 +34,35 @@ const styles = {
     marginBottom: '0.5em',
   },
   tooltip: {
-    textAlign: 'left',
-    padding: '1em',
-    borderRadius: '4px',
-    boxShadow: '3px 3px 5px rgba(0,0,0,0.15)',
-    backgroundColor: 'white',
-    color: '#AAA',
-    display: 'inline-block',
+    display: 'table',
     position: 'absolute',
     top: '-100%',
     left: '50%',
-    transform: 'translate(-50%, 0)',
+
+    padding: '1em',
+    borderRadius: '4px',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 4px 2px',
+
+    textAlign: 'left',
+
+    color: '#AAA',
+    backgroundColor: '#FFF',
+
     opacity: 1,
+    transform: 'translate(-50%, 0)',
+
     transitionProperty: 'opacity, transform',
     transitionDuration: '0.3s',
     transitionTimingFunction: 'ease-out',
+
     pointerEvents: 'none',
+  },
+  tooltipChild: {
+    display: 'table-row',
   },
   tooltipHidden: {
     opacity: 0,
-    transform: 'translate(-50%, 20%)',
+    transform: 'translate(-50%, 10%)',
   },
   selected: {
     color: 'initial',
@@ -166,14 +175,23 @@ class ShopFact extends React.Component {
     const { icon, text } = texts[type][index];
 
     // Create a tooltip component that shows all possible options for this fact.
+    const style = styles.tooltipChild;
+    const selectedStyle = {
+      ...styles.selected,
+      ...styles.tooltipChild,
+    };
+
     const tooltip = (
       <div style={this.state.tooltipOpen ?
         styles.tooltip :
         { ...styles.tooltip, ...styles.tooltipHidden }}
       >
         {texts[type].map((item, i) => (
-          <div key={item.text} style={index === i ? styles.selected : null}>
-            {item.text} <br />
+          <div
+            key={item.text}
+            style={index === i ? selectedStyle : style}
+          >
+            {item.text}
           </div>
         ))}
       </div>

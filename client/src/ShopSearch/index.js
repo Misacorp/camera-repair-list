@@ -241,7 +241,6 @@ class ShopSearch extends React.Component {
           value={countryFilter}
           onChange={this.handleChange}
           entries={uniqueCountries}
-          multiple
         />
         <ShopSearchMultiFilter
           name="equipmentFilter"
@@ -263,7 +262,7 @@ class ShopSearch extends React.Component {
         <div style={styles.errorContainer} >
           <RaisedButton
             label={isLoading ? 'Loading...' : 'Clear cache and refresh data'}
-            secondary
+            primary
             disabled={isLoading}
             onClick={() => {
               this.getShopData(this.props.source, true);
