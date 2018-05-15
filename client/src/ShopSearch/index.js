@@ -100,12 +100,17 @@ class ShopSearch extends React.Component {
    * @param {object} filters Shop key-value pairs ex. { country: 'Finland', size: '4' }
    */
   filterShops(filters) {
+    const MAXLENGTH = 10;
     const { countryFilter, equipmentFilter } = this.state;
     let shopList = this.state.shops;
+    let countryFiltered = false;
+    let equipmentFiltered = false;
 
     // Filter by country
     if (countryFilter.indexOf(this.defaults.country) < 0) {
       shopList = shopList.filter(shop => filters.country.indexOf(shop.country) > -1);
+      // Mark that we have filtered by country
+      countryFiltered = true;
     }
 
     // Filter by equipment
@@ -148,11 +153,19 @@ class ShopSearch extends React.Component {
 
       // Update shopList with newly filtered shops.
       shopList = goodShops;
+
+      // Mark that we have filtered based on equipment
+      equipmentFiltered = true;
     }
 
+    // Check if country and equipment filters have a value. If not, limit results
+    let shopsToReturn = shopList;
+    if (!countryFiltered || !equipmentFiltered) shopsToReturn = shopList.splice(0, this.MAXLENGTH);
+
     return {
-      shops: shopList.splice(0, this.MAXLENGTH),
+      shops: shopsToReturn,
       length: shopList.length,
+      limitResults: shopList.length > MAXLENGTH && !(countryFiltered && equipmentFiltered),
     };
   }
 
@@ -251,7 +264,7 @@ class ShopSearch extends React.Component {
           multiple
         />
         <ShopCardList shops={filterResult.shops} />
-        {filterResult.length > this.MAXLENGTH ?
+        {filterResult.limitResults ?
           <p>
             Showing {this.MAXLENGTH} of {filterResult.length} shops.
             Apply filters to refine your search.

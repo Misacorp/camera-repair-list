@@ -6,7 +6,10 @@ export default {
  * @param {string} countryName Non full name of a country to fetch.
  */
   getFlag(countryName) {
-    const source = `https://restcountries.eu/rest/v2/name/${countryName}?fields=flag`;
+    let name = countryName;
+    if (countryName.toLowerCase() === 'india') name = 'Republic of India';
+
+    const source = `https://restcountries.eu/rest/v2/name/${name}?fields=flag`;
 
     return new Promise((resolve, reject) => {
       cachedFetch(source, 86400) // One day cache

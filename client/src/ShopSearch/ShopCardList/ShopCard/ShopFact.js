@@ -14,6 +14,8 @@ import Neutral from 'material-ui/svg-icons/social/sentiment-neutral';
 import Satisfied from 'material-ui/svg-icons/social/sentiment-satisfied';
 import VerySatisfied from 'material-ui/svg-icons/social/sentiment-very-satisfied';
 
+import ReportIcon from 'material-ui/svg-icons/content/report';
+
 const styles = {
   container: {
     display: 'block',
@@ -25,6 +27,9 @@ const styles = {
   icon: {
     width: '50px',
     height: 'auto',
+  },
+  badIcon: {
+    color: '#AAA',
   },
   text: {
     display: 'block',
@@ -74,6 +79,10 @@ const texts = [];
 // Assign different sizes
 texts.size = [
   {
+    icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+    text: 'Unknown or bad data',
+  },
+  {
     icon: <PersonIcon style={styles.icon} />,
     text: 'One technician',
   },
@@ -94,6 +103,10 @@ texts.size = [
 // Assign different types
 texts.type = [
   {
+    icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+    text: 'Unknown or bad data',
+  },
+  {
     icon: <IndividualSpareTimeIcon style={styles.icon} />,
     text: 'Individual repairing in their spare time',
   },
@@ -109,6 +122,10 @@ texts.type = [
 
 // Assign different futures
 texts.future = [
+  {
+    icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+    text: 'Unknown or bad data',
+  },
   {
     icon: <VeryDissatisfied style={styles.icon} />,
     text: 'Future sucks',
@@ -169,31 +186,34 @@ class ShopFact extends React.Component {
   render() {
     const { type, title, value } = this.props;
 
-    // Turn value into an array index by parsing it as an integer.
-    const index = parseInt(value, 10) - 1;
     // Get the correct icon and text.
-    const { icon, text } = texts[type][index];
+    const { icon, text } = texts[type][value];
 
     // Create a tooltip component that shows all possible options for this fact.
+    // Set some styles
     const style = styles.tooltipChild;
     const selectedStyle = {
       ...styles.selected,
       ...styles.tooltipChild,
     };
 
+    // Create actual tooltip
     const tooltip = (
       <div style={this.state.tooltipOpen ?
         styles.tooltip :
         { ...styles.tooltip, ...styles.tooltipHidden }}
       >
-        {texts[type].map((item, i) => (
-          <div
-            key={item.text}
-            style={index === i ? selectedStyle : style}
-          >
-            {item.text}
-          </div>
-        ))}
+        {texts[type].map((item, i) => {
+          if (i === 0) return null;
+          return (
+            <div
+              key={item.text}
+              style={value === i ? selectedStyle : style}
+            >
+              {item.text}
+            </div>
+          );
+          })}
       </div>
     );
 
@@ -221,11 +241,11 @@ export default ShopFact;
 ShopFact.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
 };
 
 ShopFact.defaultProps = {
   type: 'type',
   title: 'title',
-  value: 'value',
+  value: 0,
 };

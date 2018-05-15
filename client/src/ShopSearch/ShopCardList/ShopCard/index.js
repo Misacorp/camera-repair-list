@@ -11,6 +11,7 @@ import GlobeIcon from 'material-ui/svg-icons/social/public';
 import ColList from '../../ColList/';
 import ColListItem from '../../ColList/ColListItem';
 import ConditionalText from './ConditionalText';
+import Contact from './Contact';
 import DataAccuracy from './DataAccuracy';
 import Shop from '../../Shop';
 import ShopFact from './ShopFact';
@@ -65,6 +66,9 @@ const styles = {
     backgroundSize: 'cover',
     width: '100%',
     height: '100%',
+  },
+  link: {
+    color: '#000',
   },
 };
 
@@ -153,10 +157,18 @@ class ShopCard extends React.Component {
           >
             <ColList title="Contact" >
               <ColListItem columns={contactColumns}>
-                <EmailIcon style={styles.icon} />{shop.email}
+                <EmailIcon style={styles.icon} />
+                <Contact shopname={shop.shopname} country={shop.country}>
+                  {shop.email}
+                </Contact>
               </ColListItem>
               <ColListItem columns={contactColumns}>
-                <GlobeIcon style={styles.icon} /><a href={shop.website}>{shop.website}</a>
+                <GlobeIcon style={styles.icon} />
+                <Contact shopname={shop.shopname} country={shop.country}>
+                  {shop.website
+                  ? <a href={`//${shop.website}`} style={styles.link}>{shop.website}</a>
+                  : null }
+                </Contact>
               </ColListItem>
             </ColList>
 
@@ -197,7 +209,7 @@ class ShopCard extends React.Component {
 
             <ColList title="Data Accuracy" >
               <ColListItem columns={1}>
-                <DataAccuracy mentions={shop.mentions} relationship={shop.relationship} />
+                <DataAccuracy dataAccuracy={shop.dataAccuracy} />
                 <RaisedButton
                   label="Submit more data"
                   primary
