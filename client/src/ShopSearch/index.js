@@ -58,7 +58,7 @@ class ShopSearch extends React.Component {
   }
 
 
-  componentDidMount() {
+  componentWillMount() {
     // Load shop data
     this.getShopData(this.props.source);
   }
@@ -102,7 +102,8 @@ class ShopSearch extends React.Component {
   filterShops(filters) {
     const MAXLENGTH = 10;
     const { countryFilter, equipmentFilter } = this.state;
-    let shopList = this.state.shops;
+    // Use slice() to clone the array and not even accidentally change the original data.
+    let shopList = this.state.shops.slice();
     let countryFiltered = false;
     let equipmentFiltered = false;
 
@@ -160,11 +161,14 @@ class ShopSearch extends React.Component {
 
     // Check if country and equipment filters have a value. If not, limit results
     let shopsToReturn = shopList;
-    if (!countryFiltered || !equipmentFiltered) shopsToReturn = shopList.splice(0, this.MAXLENGTH);
+    if (!countryFiltered || !equipmentFiltered) {
+      shopsToReturn = shopsToReturn.splice(0, this.MAXLENGTH);
+    }
 
     return {
       shops: shopsToReturn,
       length: shopList.length,
+      // Did we limit the results?
       limitResults: shopList.length > MAXLENGTH && !(countryFiltered && equipmentFiltered),
     };
   }
