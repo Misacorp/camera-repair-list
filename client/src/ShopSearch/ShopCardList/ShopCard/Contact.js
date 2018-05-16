@@ -6,6 +6,7 @@ import Sadface from 'material-ui/svg-icons/social/sentiment-dissatisfied';
 const styles = {
   container: {
     display: 'inline-block',
+    marginBottom: '0.5em',
   },
   noData: {
     color: '#AAA',

@@ -5,6 +5,7 @@ class Shop {
     this.country = data.country || '';
     this.email = data.email || '';
     this.website = Shop.parseWebsite(data.website) || '';
+    this.phone = data.phone || '';
 
     this.equipment1 = Shop.stringIntToBool(data.equipment1);
     this.equipment2 = Shop.stringIntToBool(data.equipment2);

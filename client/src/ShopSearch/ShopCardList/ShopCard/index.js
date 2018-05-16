@@ -7,6 +7,7 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import RaisedButton from 'material-ui/RaisedButton';
 import GlobeIcon from 'material-ui/svg-icons/social/public';
+import PhoneIcon from 'material-ui/svg-icons/communication/phone';
 
 import ColList from '../../ColList/';
 import ColListItem from '../../ColList/ColListItem';
@@ -170,6 +171,15 @@ class ShopCard extends React.Component {
                   : null }
                 </Contact>
               </ColListItem>
+              {shop.phone ?
+                <ColListItem columns={contactColumns}>
+                  <PhoneIcon style={styles.icon} />
+                  <Contact shopname={shop.shopname} country={shop.country}>
+                    {shop.phone}
+                  </Contact>
+                </ColListItem> :
+                null
+              }
             </ColList>
 
             <ColList title="Services">
