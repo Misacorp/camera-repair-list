@@ -45,6 +45,7 @@ class ShopSearch extends React.Component {
       countryFilter: [this.defaults.country],
       equipmentFilter: [this.defaults.equipment],
       shops: [],
+      pageOffset: 1,
     };
     this.equipment = [
       'Analog Mechanical Cameras',
@@ -55,6 +56,7 @@ class ShopSearch extends React.Component {
     ];
 
     this.handleChange = this.handleChange.bind(this);
+    this.setPage = this.setPage.bind(this);
   }
 
 
@@ -95,12 +97,21 @@ class ShopSearch extends React.Component {
       });
   }
 
+
+  /**
+   * Set which page to display
+   * @param {number} newPage New page
+   */
+  setPage(newPage, maxPages) {
+    if (typeof newPage === 'number' && newPage > 0 && newPage && newPage <= maxPages) this.setState({ pageOffset: newPage });
+  }
+
+
   /**
    * Filter shops based on different conditions
    * @param {object} filters Shop key-value pairs ex. { country: 'Finland', size: '4' }
    */
   filterShops(filters) {
-    const MAXLENGTH = 10;
     const { countryFilter, equipmentFilter } = this.state;
     // Use slice() to clone the array and not even accidentally change the original data.
     let shopList = this.state.shops.slice();
@@ -160,16 +171,27 @@ class ShopSearch extends React.Component {
     }
 
     // Check if country and equipment filters have a value. If not, limit results
-    let shopsToReturn = shopList;
-    if (!countryFiltered || !equipmentFiltered) {
-      shopsToReturn = shopsToReturn.splice(0, this.MAXLENGTH);
+    let shopsToReturn = shopList.slice();
+    // if (!countryFiltered || !equipmentFiltered) {
+
+    // Don't go past the available pages
+    const pageTotal = Math.ceil(shopList.length / this.MAXLENGTH);
+    let fromShopNo = this.MAXLENGTH * (this.state.pageOffset - 1);
+    if (this.state.pageOffset > pageTotal) {
+      // Selected page is higher than there are pages to show.
+      // Start at the first shop.
+      fromShopNo = 0;
     }
 
+    shopsToReturn = shopsToReturn.splice(fromShopNo, this.MAXLENGTH);
+    // }
+
     return {
-      shops: shopsToReturn,
-      length: shopList.length,
+      shops: shopsToReturn, // MAXLENGTH array of shops
+      length: shopList.length, // Entire amount of shops
       // Did we limit the results?
-      limitResults: shopList.length > MAXLENGTH && !(countryFiltered && equipmentFiltered),
+      limitResults: shopList.length > this.MAXLENGTH && !(countryFiltered && equipmentFiltered),
+      pageTotal,
     };
   }
 
@@ -181,7 +203,7 @@ class ShopSearch extends React.Component {
    * @param {*} value Value after the change
    */
   handleChange(name, value) {
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, pageOffset: 1 });
   }
 
 
@@ -270,11 +292,25 @@ class ShopSearch extends React.Component {
         <ShopCardList shops={filterResult.shops} />
         {filterResult.limitResults ?
           <p>
-            Showing {this.MAXLENGTH} of {filterResult.length} shops.
+            Showing {
+              ((this.state.pageOffset - 1) * this.MAXLENGTH) + 1
+            }-{
+              Math.min(this.state.pageOffset * this.MAXLENGTH, filterResult.length)} of {filterResult.length
+            } shops.
             Apply filters to refine your search.
           </p> :
           null
         }
+
+        <RaisedButton
+          label="-"
+          onClick={() => this.setPage(this.state.pageOffset - 1, filterResult.pageTotal)}
+        />
+        <RaisedButton
+          label="+"
+          onClick={() => this.setPage(this.state.pageOffset + 1, filterResult.pageTotal)}
+        />
+        <p>Page {this.state.pageOffset}/{filterResult.pageTotal}</p>
 
         <div style={styles.errorContainer} >
           <RaisedButton

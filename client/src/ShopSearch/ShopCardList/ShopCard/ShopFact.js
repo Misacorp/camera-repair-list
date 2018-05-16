@@ -156,12 +156,13 @@ class ShopFact extends React.Component {
     // List of content that can be displayed.
     const texts = [];
 
+    texts.unknown = {
+      icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+      text: 'Unknown or bad data',
+    };
+
     // Assign different sizes
     texts.size = [
-      {
-        icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
-        text: 'Unknown or bad data',
-      },
       {
         icon: <PersonIcon style={styles.icon} />,
         text: 'One technician',
@@ -183,10 +184,6 @@ class ShopFact extends React.Component {
     // Assign different types
     texts.type = [
       {
-        icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
-        text: 'Unknown or bad data',
-      },
-      {
         icon: <IndividualSpareTimeIcon style={styles.icon} />,
         text: 'Individual repairing in their spare time',
       },
@@ -203,34 +200,38 @@ class ShopFact extends React.Component {
     // Assign different futures
     texts.future = [
       {
-        icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
-        text: 'Unknown or bad data',
-      },
-      {
         icon: <VeryDissatisfied style={styles.icon} />,
-        text: 'Future sucks',
+        text: 'Future looks grim',
       },
       {
         icon: <Dissatisfied style={styles.icon} />,
-        text: 'Future is bad',
+        text: 'Future looks bad',
       },
       {
         icon: <Neutral style={styles.icon} />,
-        text: 'Future is ok',
+        text: 'Future looks alright',
       },
       {
         icon: <Satisfied style={styles.icon} />,
-        text: 'Future is good',
+        text: 'Future looks good',
       },
       {
         icon: <VerySatisfied style={styles.icon} />,
-        text: 'Future is great',
+        text: 'Future looks great',
       },
     ];
 
 
     // Get the correct icon and text.
-    const { icon, text } = texts[type][value];
+    let icon;
+    let text;
+    if (!texts[type][value]) {
+      ({ icon } = texts.unknown);
+      ({ text } = texts.unknown);
+    } else {
+      ({ icon } = texts[type][value]);
+      ({ text } = texts[type][value]);
+    }
 
     // Create a tooltip component that shows all possible options for this fact.
     // Set some styles
@@ -246,17 +247,14 @@ class ShopFact extends React.Component {
         styles.tooltip :
         { ...styles.tooltip, ...styles.tooltipHidden }}
       >
-        {texts[type].map((item, i) => {
-          if (i === 0) return null;
-          return (
-            <div
-              key={item.text}
-              style={value === i ? selectedStyle : style}
-            >
-              {item.text}
-            </div>
-          );
-          })}
+        {texts[type].map((item, i) => (
+          <div
+            key={item.text}
+            style={value === i ? selectedStyle : style}
+          >
+            {item.text}
+          </div>
+        ))}
       </div>
     );
 

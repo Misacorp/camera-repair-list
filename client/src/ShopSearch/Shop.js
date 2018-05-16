@@ -17,11 +17,10 @@ class Shop {
     this.relationship = parseInt(data.relationship, 10) || 0;
     this.dataAccuracy = parseInt(data.dataaccuracy, 10) || 0;
 
-    // Size source is in range [0-4] so we add 1 to its value and range bounds.
-    const newSize = parseInt(data.size, 10) + 1;
-    this.size = Shop.fitToRange(newSize, 1, 5);
-    this.future = Shop.fitToRange(data.future, 1, 5) || 0; // Range [1-5].
-    this.type = Shop.fitToRange(data.type, 1, 3); // Range [1-3].
+    const newSize = parseInt(data.size, 10) - 1; // Range [1,4].
+    this.size = Shop.fitToRange(newSize, 0, 3);
+    this.future = Shop.fitToRange(parseInt(data.future, 10) - 1, 0, 4) || 0; // Range [1,5].
+    this.type = Shop.fitToRange(parseInt(data.type, 10) - 1, 0, 2); // Range [1,3].
   }
 
 
@@ -36,8 +35,7 @@ class Shop {
 
 
   /**
-   * Apply a given value into a range. If it is out of the range, return 0.
-   * Wherever this value is used, use index 0 for the default "unknown" or "bad data" message.
+   * Apply a given value into a range. If it is out of the range, return -1.
    * @param {*} val Value to apply
    * @param {number} rangeStart Range start, inclusive
    * @param {number} rangeEnd Range end, inclusive
@@ -49,7 +47,7 @@ class Shop {
     // Return value if it is in the range.
     if (value >= rangeStart && value <= rangeEnd) return value;
     // Otherwise return 0.
-    return 0;
+    return -1;
   }
 
 
