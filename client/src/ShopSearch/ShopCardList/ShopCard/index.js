@@ -195,15 +195,30 @@ class ShopCard extends React.Component {
 
             <ColList title="Shop">
               <ColListItem columns={shopFactColumns}>
-                <ShopFact type="size" title="Size" value={shop.size} />
+                <ShopFact
+                  type="size"
+                  title="Size"
+                  value={shop.size}
+                  smallScreen={shopFactColumns === 1}
+                />
               </ColListItem>
 
               <ColListItem columns={shopFactColumns}>
-                <ShopFact type="type" title="Type" value={shop.type} />
+                <ShopFact
+                  type="type"
+                  title="Type"
+                  value={shop.type}
+                  smallScreen={shopFactColumns === 1}
+                />
               </ColListItem>
 
               <ColListItem columns={shopFactColumns}>
-                <ShopFact type="future" title="Outlook" value={shop.future} />
+                <ShopFact
+                  type="future"
+                  title="Outlook"
+                  value={shop.future}
+                  smallScreen={shopFactColumns === 1}
+                />
               </ColListItem>
             </ColList>
 

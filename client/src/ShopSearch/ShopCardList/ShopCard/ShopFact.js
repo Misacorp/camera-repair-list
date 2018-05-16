@@ -16,7 +16,7 @@ import VerySatisfied from 'material-ui/svg-icons/social/sentiment-very-satisfied
 
 import ReportIcon from 'material-ui/svg-icons/content/report';
 
-const styles = {
+const defaultStyles = {
   container: {
     display: 'block',
     marginLeft: 'auto',
@@ -27,16 +27,23 @@ const styles = {
   icon: {
     width: '50px',
     height: 'auto',
+    verticalAlign: 'middle',
   },
   badIcon: {
     color: '#AAA',
   },
-  text: {
-    display: 'block',
-  },
-  title: {
-    margin: 0,
-    marginBottom: '0.5em',
+  content: {
+    container: {
+      display: 'block',
+      textAlign: 'center',
+    },
+    text: {
+      display: 'block',
+    },
+    title: {
+      margin: 0,
+      marginBottom: '0.5em',
+    },
   },
   tooltip: {
     display: 'table',
@@ -74,80 +81,6 @@ const styles = {
   },
 };
 
-const texts = [];
-
-// Assign different sizes
-texts.size = [
-  {
-    icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
-    text: 'Unknown or bad data',
-  },
-  {
-    icon: <PersonIcon style={styles.icon} />,
-    text: 'One technician',
-  },
-  {
-    icon: <PeopleIcon style={styles.icon} />,
-    text: '2-3 technicians',
-  },
-  {
-    icon: <PeopleIcon style={styles.icon} />,
-    text: '4-7 technicians',
-  },
-  {
-    icon: <PeopleIcon style={styles.icon} />,
-    text: 'Over 8 technicians',
-  },
-];
-
-// Assign different types
-texts.type = [
-  {
-    icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
-    text: 'Unknown or bad data',
-  },
-  {
-    icon: <IndividualSpareTimeIcon style={styles.icon} />,
-    text: 'Individual repairing in their spare time',
-  },
-  {
-    icon: <IndividualFullTimeIcon style={styles.icon} />,
-    text: 'Individual repairing full time',
-  },
-  {
-    icon: <RegisteredCompanyIcon style={styles.icon} />,
-    text: 'Registered company',
-  },
-];
-
-// Assign different futures
-texts.future = [
-  {
-    icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
-    text: 'Unknown or bad data',
-  },
-  {
-    icon: <VeryDissatisfied style={styles.icon} />,
-    text: 'Future sucks',
-  },
-  {
-    icon: <Dissatisfied style={styles.icon} />,
-    text: 'Future is bad',
-  },
-  {
-    icon: <Neutral style={styles.icon} />,
-    text: 'Future is ok',
-  },
-  {
-    icon: <Satisfied style={styles.icon} />,
-    text: 'Future is good',
-  },
-  {
-    icon: <VerySatisfied style={styles.icon} />,
-    text: 'Future is great',
-  },
-];
-
 
 /**
  * Display quick facts about a shop; size, type and future.
@@ -184,7 +117,117 @@ class ShopFact extends React.Component {
 
 
   render() {
-    const { type, title, value } = this.props;
+    const {
+      type,
+      title,
+      value,
+      smallScreen,
+    } = this.props;
+
+    // Set styles if viewed on a small screen
+    let styles = defaultStyles;
+    if (smallScreen) {
+      styles = {
+        ...styles,
+        container: {
+          ...styles.container,
+          textAlign: 'left',
+          marginBottom: '0.5em',
+        },
+        icon: {
+          ...styles.icon,
+          verticalAlign: 'middle',
+        },
+        content: {
+          container: {
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            marginLeft: '1em',
+          },
+          title: {
+            ...styles.content.title,
+            margin: 0,
+          },
+        },
+      };
+    }
+
+
+    // List of content that can be displayed.
+    const texts = [];
+
+    // Assign different sizes
+    texts.size = [
+      {
+        icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+        text: 'Unknown or bad data',
+      },
+      {
+        icon: <PersonIcon style={styles.icon} />,
+        text: 'One technician',
+      },
+      {
+        icon: <PeopleIcon style={styles.icon} />,
+        text: '2-3 technicians',
+      },
+      {
+        icon: <PeopleIcon style={styles.icon} />,
+        text: '4-7 technicians',
+      },
+      {
+        icon: <PeopleIcon style={styles.icon} />,
+        text: 'Over 8 technicians',
+      },
+    ];
+
+    // Assign different types
+    texts.type = [
+      {
+        icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+        text: 'Unknown or bad data',
+      },
+      {
+        icon: <IndividualSpareTimeIcon style={styles.icon} />,
+        text: 'Individual repairing in their spare time',
+      },
+      {
+        icon: <IndividualFullTimeIcon style={styles.icon} />,
+        text: 'Individual repairing full time',
+      },
+      {
+        icon: <RegisteredCompanyIcon style={styles.icon} />,
+        text: 'Registered company',
+      },
+    ];
+
+    // Assign different futures
+    texts.future = [
+      {
+        icon: <ReportIcon style={{ ...styles.icon, ...styles.badIcon }} />,
+        text: 'Unknown or bad data',
+      },
+      {
+        icon: <VeryDissatisfied style={styles.icon} />,
+        text: 'Future sucks',
+      },
+      {
+        icon: <Dissatisfied style={styles.icon} />,
+        text: 'Future is bad',
+      },
+      {
+        icon: <Neutral style={styles.icon} />,
+        text: 'Future is ok',
+      },
+      {
+        icon: <Satisfied style={styles.icon} />,
+        text: 'Future is good',
+      },
+      {
+        icon: <VerySatisfied style={styles.icon} />,
+        text: 'Future is great',
+      },
+    ];
+
 
     // Get the correct icon and text.
     const { icon, text } = texts[type][value];
@@ -227,25 +270,29 @@ class ShopFact extends React.Component {
       >
         {tooltip}
         {icon}
-        <h4 style={styles.title}>{title}</h4>
-        <div style={styles.text}>
-          {text}
+        <div style={styles.content.container}>
+          <h4 style={styles.content.title}>{title}</h4>
+          <div style={styles.content.text}>
+            {text}
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default ShopFact;
-
 ShopFact.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
   value: PropTypes.number,
+  smallScreen: PropTypes.bool,
 };
 
 ShopFact.defaultProps = {
   type: 'type',
   title: 'title',
   value: 0,
+  smallScreen: true,
 };
+
+export default ShopFact;
