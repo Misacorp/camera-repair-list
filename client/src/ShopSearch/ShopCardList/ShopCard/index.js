@@ -74,6 +74,14 @@ const styles = {
 };
 
 class ShopCard extends React.Component {
+  /**
+   * Notify Tag Manager that this card was expanded
+   */
+  static updateDataLayer(data) {
+    window.dataLayer.push(data);
+  }
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -81,6 +89,7 @@ class ShopCard extends React.Component {
       shop: props.shop,
       expanded: false,
     };
+    this.handleExpand = this.handleExpand.bind(this);
   }
 
   /**
@@ -97,6 +106,34 @@ class ShopCard extends React.Component {
         console.log(error);
       });
   }
+
+
+  /**
+   * Handle expansion of a ShopCard
+   * @param {boolean} expanded New expanded state of the card.
+   */
+  handleExpand(expanded) {
+    // Expand card
+    this.setState({ expanded });
+
+    // Build an event for GTM's data layer
+    const { shopname, country } = this.state.shop;
+    let event = null;
+
+    if (expanded) {
+      event = {
+        expandShop: { shopname, country },
+      };
+    } else {
+      event = {
+        shrinkShop: { shopname, country },
+      };
+    }
+
+    // Push event to dataLayer
+    ShopCard.updateDataLayer(event);
+  }
+
 
   render() {
     const { shop } = this.state;
@@ -130,7 +167,7 @@ class ShopCard extends React.Component {
         <Card
           key={shop.shopname}
           containerStyle={styles.cardContainer}
-          onExpandChange={newState => this.setState({ expanded: newState })}
+          onExpandChange={this.handleExpand}
         >
           <CardHeader
             title={this.state.shop.shopname}
