@@ -74,36 +74,27 @@ const styles = {
 };
 
 class ShopCard extends React.Component {
-  /**
-   * Notify Tag Manager that this card was expanded
-   */
-  static updateDataLayer(data) {
-    window.dataLayer.push(data);
-  }
-
-
   constructor(props) {
     super(props);
     this.state = {
       flagImage: loadingIcon,
-      shop: props.shop,
       expanded: false,
     };
     this.handleExpand = this.handleExpand.bind(this);
+    this.updateDataLayer = this.updateDataLayer.bind(this);
   }
 
   /**
    * Get country flags
    */
   componentWillMount() {
-    flagFetcher.getFlag(this.state.shop.country)
+    flagFetcher.getFlag(this.props.shop.country)
       .then((countryFlagURL) => {
         this.setState({
           flagImage: countryFlagURL,
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
       });
   }
 
@@ -116,27 +107,38 @@ class ShopCard extends React.Component {
     // Expand card
     this.setState({ expanded });
 
-    // Build an event for GTM's data layer
-    const { shopname, country } = this.state.shop;
-    let event = null;
-
+    // Build an event name for GTM's data layer
+    let eventName = 'shrinkShop';
     if (expanded) {
-      event = {
-        expandShop: { shopname, country },
-      };
-    } else {
-      event = {
-        shrinkShop: { shopname, country },
-      };
+      eventName = 'expandShop';
     }
 
     // Push event to dataLayer
-    ShopCard.updateDataLayer(event);
+    this.updateDataLayer(eventName);
+  }
+
+
+  /**
+   * Notify Tag Manager that this card was expanded
+   * @param {string} eventName Name of event to fire
+   */
+  updateDataLayer(eventName) {
+    // Send an event name if one was provided
+    let event = null;
+    if (typeof eventName === 'string' && eventName.length > 0) event = eventName;
+
+    const data = {
+      event,
+      shopname: this.props.shop.shopname,
+      country: this.props.shop.country,
+    };
+
+    window.dataLayer.push(data);
   }
 
 
   render() {
-    const { shop } = this.state;
+    const { shop } = this.props;
 
     // Tweak columns based on component width
     const { width } = this.props.size;
@@ -154,9 +156,9 @@ class ShopCard extends React.Component {
     }
 
     // Build a shop's 'subtitle' from its address
-    let subtitle = this.state.shop.country;
-    if (this.state.shop.address) {
-      subtitle = `${this.state.shop.address}, ${subtitle}`;
+    let subtitle = shop.country;
+    if (shop.address) {
+      subtitle = `${shop.address}, ${subtitle}`;
     }
 
     // Get expanded and closed styles
@@ -170,7 +172,7 @@ class ShopCard extends React.Component {
           onExpandChange={this.handleExpand}
         >
           <CardHeader
-            title={this.state.shop.shopname}
+            title={shop.shopname}
             subtitle={subtitle}
             actAsExpander
             showExpandableButton
@@ -203,9 +205,16 @@ class ShopCard extends React.Component {
               <ColListItem columns={contactColumns}>
                 <GlobeIcon style={styles.icon} />
                 <Contact shopname={shop.shopname} country={shop.country}>
-                  {shop.website
-                  ? <a href={`//${shop.website}`} style={styles.link}>{shop.website}</a>
-                  : null }
+                  {shop.website ?
+                    <a
+                      href={`//${shop.website}`}
+                      style={styles.link}
+                      target="_blank"
+                      onMouseUp={() => this.updateDataLayer('clickWebsite')}
+                    >
+                      {shop.website}
+                    </a> :
+                  null }
                 </Contact>
               </ColListItem>
               {shop.phone ?
@@ -275,7 +284,9 @@ class ShopCard extends React.Component {
                 <RaisedButton
                   label="Submit more data"
                   primary
+                  target="_blank"
                   href={`//cameraventures.com/repairraffle?shopname=${encodeURI(shop.shopname)}&country=${encodeURI(shop.country)}`}
+                  onMouseUp={() => this.updateDataLayer('clickSubmitData')}
                 />
               </ColListItem>
             </ColList>

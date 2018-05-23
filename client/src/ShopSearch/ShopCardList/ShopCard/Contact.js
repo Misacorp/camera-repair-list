@@ -30,7 +30,14 @@ function Contact(props) {
         No data <Sadface style={styles.icon} />
         <a
           href={`//cameraventures.com/repairraffle?shopname=${encodeURI(shopname)}&country=${encodeURI(country)}`}
+          target="_blank"
           style={styles.addSome}
+          onMouseUp={() => window.dataLayer.push({
+              event: 'clickAddContact',
+              shopname,
+              country,
+            })
+          }
         >
           Add some?
         </a>
