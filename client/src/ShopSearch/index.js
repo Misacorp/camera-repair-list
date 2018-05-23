@@ -203,7 +203,46 @@ class ShopSearch extends React.Component {
    * @param {*} value Value after the change
    */
   handleChange(name, value) {
+    // Apply event changes and reset pagination to first page.
     this.setState({ [name]: value, pageOffset: 1 });
+
+    // Notify dataLayer that country filter was changed
+    if (name === 'countryFilter') {
+      // Default to clearing the filter
+      let data = {
+        event: 'clearCountryFilter',
+      };
+
+      // If filter was set, not cleared
+      if (value.indexOf(this.defaults.country) < 0) {
+        data = {
+          event: 'setCountryFilter',
+          countryFilter: value,
+        };
+      }
+
+      // Push data to Data Layer
+      window.dataLayer.push(data);
+    }
+
+    // Notify dataLayer that equipment filter was changed
+    if (name === 'equipmentFilter') {
+      // Default to clearing the filter
+      let data = {
+        event: 'clearEquipmentFilter',
+      };
+
+      // If filter was set, not cleared
+      if (value.indexOf(this.defaults.equipment) < 0) {
+        data = {
+          event: 'setEquipmentFilter',
+          equipmentFilter: value,
+        };
+      }
+
+      // Push data to Data Layer
+      window.dataLayer.push(data);
+    }
   }
 
 
@@ -295,7 +334,9 @@ class ShopSearch extends React.Component {
             Showing {
               ((this.state.pageOffset - 1) * this.MAXLENGTH) + 1
             }-{
-              Math.min(this.state.pageOffset * this.MAXLENGTH, filterResult.length)} of {filterResult.length
+              Math.min(this.state.pageOffset * this.MAXLENGTH, filterResult.length)
+            } of {
+              filterResult.length
             } shops.
             Apply filters to refine your search.
           </p> :
