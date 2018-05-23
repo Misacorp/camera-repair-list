@@ -11,6 +11,10 @@ const styles = {
   ShopCardList: {
     textAlign: 'left',
     maxWidth: '1080px',
+    fontFamily: 'Montserrat, Helvetica Neue, Roboto, Arial, sans',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   loadingContainer: {
     textAlign: 'center',
@@ -311,6 +315,23 @@ class ShopSearch extends React.Component {
       equipment: equipmentFilter,
     });
 
+    // Button to force-refresh shop list
+    // Don't show this on the live site. Should figure out a better way to detect it later...
+    const forceRefresh = false ?
+      (
+        <div style={styles.errorContainer} >
+          <RaisedButton
+            label={isLoading ? 'Loading...' : 'Clear cache and refresh data'}
+            primary
+            disabled={isLoading}
+            onClick={() => {
+              this.getShopData(this.props.source, true);
+            }}
+          />
+        </div>
+      ) :
+      null;
+
     return (
       <div style={styles.ShopCardList}>
         <ShopSearchMultiFilter
@@ -329,6 +350,7 @@ class ShopSearch extends React.Component {
           multiple
         />
         <ShopCardList shops={filterResult.shops} />
+
         {filterResult.limitResults ?
           <p>
             Showing {
@@ -353,16 +375,7 @@ class ShopSearch extends React.Component {
         />
         <p>Page {this.state.pageOffset}/{filterResult.pageTotal}</p>
 
-        <div style={styles.errorContainer} >
-          <RaisedButton
-            label={isLoading ? 'Loading...' : 'Clear cache and refresh data'}
-            primary
-            disabled={isLoading}
-            onClick={() => {
-              this.getShopData(this.props.source, true);
-            }}
-          />
-        </div>
+        {forceRefresh}
       </div>
     );
   }
