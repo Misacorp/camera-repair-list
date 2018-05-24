@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import CircularProgress from 'material-ui/CircularProgress';
+import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Shop from './Shop';
-import ShopSearchMultiFilter from './ShopSearchMultiFilter';
-import ShopCardList from './ShopCardList';
+
+import Left from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+
 import cachedFetch from './cachedFetch';
+import Shop from './Shop';
+import ShopCardList from './ShopCardList';
+import ShopSearchMultiFilter from './ShopSearchMultiFilter';
 
 const styles = {
   ShopCardList: {
@@ -30,6 +36,18 @@ const styles = {
     backgroundColor: '#F0F0F0',
     padding: '0.75em',
     borderRadius: '3px',
+  },
+  paginationControls: {
+    display: 'block',
+    verticalAlign: 'middle',
+    textAlign: 'center',
+  },
+  paginationButton: {
+    verticalAlign: 'middle',
+  },
+  pageNumber: {
+    verticalAlign: 'middle',
+    display: 'inline-block',
   },
 };
 
@@ -215,6 +233,7 @@ class ShopSearch extends React.Component {
       // Default to clearing the filter
       let data = {
         event: 'clearCountryFilter',
+        countryFilter: undefined,
       };
 
       // If filter was set, not cleared
@@ -234,6 +253,7 @@ class ShopSearch extends React.Component {
       // Default to clearing the filter
       let data = {
         event: 'clearEquipmentFilter',
+        equipmentFilter: undefined,
       };
 
       // If filter was set, not cleared
@@ -351,29 +371,33 @@ class ShopSearch extends React.Component {
         />
         <ShopCardList shops={filterResult.shops} />
 
-        {filterResult.limitResults ?
-          <p>
-            Showing {
-              ((this.state.pageOffset - 1) * this.MAXLENGTH) + 1
-            }-{
-              Math.min(this.state.pageOffset * this.MAXLENGTH, filterResult.length)
-            } of {
-              filterResult.length
-            } shops.
-            Apply filters to refine your search.
-          </p> :
-          null
-        }
+        <div style={styles.paginationControls}>
+          <IconButton
+            tooltip="Previous page"
+            tooltipPosition="top-center"
+            onClick={() => {
+              this.setPage(this.state.pageOffset - 1, filterResult.pageTotal);
+              window.dataLayer.push({ event: 'clickPrevPage' });
+            }}
+            style={styles.paginationButton}
+          >
+            <Left />
+          </IconButton>
 
-        <RaisedButton
-          label="-"
-          onClick={() => this.setPage(this.state.pageOffset - 1, filterResult.pageTotal)}
-        />
-        <RaisedButton
-          label="+"
-          onClick={() => this.setPage(this.state.pageOffset + 1, filterResult.pageTotal)}
-        />
-        <p>Page {this.state.pageOffset}/{filterResult.pageTotal}</p>
+          <p style={styles.pageNumber} >{this.state.pageOffset}/{filterResult.pageTotal}</p>
+
+          <IconButton
+            tooltip="Next page"
+            tooltipPosition="top-center"
+            onClick={() => {
+              this.setPage(this.state.pageOffset + 1, filterResult.pageTotal);
+              window.dataLayer.push({ event: 'clickNextPage' });
+            }}
+            style={styles.paginationButton}
+          >
+            <Right />
+          </IconButton>
+        </div>
 
         {forceRefresh}
       </div>
