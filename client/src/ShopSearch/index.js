@@ -48,6 +48,7 @@ const styles = {
   pageNumber: {
     verticalAlign: 'middle',
     display: 'inline-block',
+    margin: 0,
   },
 };
 
