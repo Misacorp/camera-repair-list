@@ -140,6 +140,9 @@ class ShopCard extends React.Component {
   render() {
     const { shop } = this.props;
 
+    // Get or create GTM data layer
+    window.dataLayer = window.dataLayer || [];
+
     // Tweak columns based on component width
     const { width } = this.props.size;
 

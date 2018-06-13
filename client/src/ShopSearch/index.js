@@ -295,6 +295,9 @@ class ShopSearch extends React.Component {
       equipmentFilter,
     } = this.state;
 
+    // Get or create GTM data layer
+    window.dataLayer = window.dataLayer || [];
+
     // Loading resulted in an error. Display a message and retry button.
     if (error) {
       return (

@@ -32,12 +32,16 @@ function Contact(props) {
           href={`//cameraventures.com/repairraffle?shopname=${encodeURI(shopname)}&country=${encodeURI(country)}`}
           target="_blank"
           style={styles.addSome}
-          onMouseUp={() => window.dataLayer.push({
+          onMouseUp={() => {
+            // Get or create GTM data layer
+            window.dataLayer = window.dataLayer || [];
+            // Add event to data layer
+            window.dataLayer.push({
               event: 'clickAddContact',
               shopname,
               country,
-            })
-          }
+            });
+          }}
         >
           Add some?
         </a>
