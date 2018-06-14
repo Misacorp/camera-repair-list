@@ -3,9 +3,17 @@ import PropTypes from 'prop-types';
 import ShopCard from './ShopCard';
 import Shop from '../Shop';
 
+const styles = {
+  shopCardList: {
+    minHeight: 760,
+    backgroundColor: '#FAFAFA',
+  },
+};
+
 function ShopCardList(props) {
+  console.log(`Shops: ${props.shops.length}`);
   return (
-    <div>
+    <div style={styles.shopCardList}>
       { props.shops.map(shop => (
         <ShopCard key={shop.shopname} shop={shop} />
       ))}

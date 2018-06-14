@@ -14,9 +14,15 @@ const muiTheme = getMuiTheme({
   fontFamily: 'Montserrat, Helvetica Neue, Roboto, Arial, sans',
 });
 
+const styles = {
+  app: {
+    fontSize: '16px',
+  },
+};
+
 function App() {
   return (
-    <div>
+    <div style={styles.app} >
       <MuiThemeProvider muiTheme={muiTheme}>
         <ShopSearch />
       </MuiThemeProvider>
