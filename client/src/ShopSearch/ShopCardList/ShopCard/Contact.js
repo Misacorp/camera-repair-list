@@ -29,7 +29,7 @@ function Contact(props) {
       <div style={{ ...styles.container, ...styles.noData }}>
         No data <Sadface style={styles.icon} />
         <a
-          href={`//cameraventures.com/repairraffle?shopname=${encodeURI(shopname)}&country=${encodeURI(country)}`}
+          href={`https://camerarescue.org/repaircenters?shop-name=${encodeURI(shopname)}&country=${encodeURI(country)}#addshop`}
           target="_blank"
           style={styles.addSome}
           onMouseUp={() => {

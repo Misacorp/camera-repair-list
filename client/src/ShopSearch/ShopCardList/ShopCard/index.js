@@ -288,7 +288,7 @@ class ShopCard extends React.Component {
                   label="Submit more data"
                   primary
                   target="_blank"
-                  href={`//cameraventures.com/repairraffle?shopname=${encodeURI(shop.shopname)}&country=${encodeURI(shop.country)}`}
+                  href={`https://camerarescue.org/repaircenters?shop-name=${encodeURI(shop.shopname)}&country=${encodeURI(shop.country)}#addshop`}
                   onMouseUp={() => this.updateDataLayer('clickSubmitData')}
                 />
               </ColListItem>
