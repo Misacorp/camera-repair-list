@@ -287,7 +287,6 @@ class ShopCard extends React.Component {
                 <RaisedButton
                   label="Submit more data"
                   primary
-                  target="_blank"
                   href={`https://camerarescue.org/repaircenters?shop-name=${encodeURI(shop.shopname)}&country=${encodeURI(shop.country)}#addshop`}
                   onMouseUp={() => this.updateDataLayer('clickSubmitData')}
                 />

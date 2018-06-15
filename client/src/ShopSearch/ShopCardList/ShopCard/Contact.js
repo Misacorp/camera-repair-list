@@ -30,7 +30,6 @@ function Contact(props) {
         No data <Sadface style={styles.icon} />
         <a
           href={`https://camerarescue.org/repaircenters?shop-name=${encodeURI(shopname)}&country=${encodeURI(country)}#addshop`}
-          target="_blank"
           style={styles.addSome}
           onMouseUp={() => {
             // Get or create GTM data layer
